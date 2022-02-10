@@ -81,7 +81,7 @@ main {
   background-color: #262424;
   display: flex;
   color: #fff;
-  padding: 5rem 15%;
+  padding: 4rem 15%;
 }
 
 .restaurant__image {
@@ -126,11 +126,12 @@ main {
 }
 
 .restaurant__offer {
-  border: 1px solid #bebdbd;
+  border: 0.5px solid #bebdbd;
   font-size: 1.6rem;
-  padding: 4rem 2rem 0;
+  padding: 3rem 2rem 1rem;
   width: 25%;
   position: relative;
+  align-self: center;
 }
 .restaurant__offer__heading {
   position: absolute;
@@ -156,7 +157,7 @@ main {
   padding-top: 1rem;
   position: absolute;
   width: 110%;
-  bottom: -7rem;
+  bottom: -6rem;
 }
 .restaurant__info__input-group {
   position: relative;
@@ -221,16 +222,16 @@ main {
   padding: 5rem 15%;
 }
 .sidebar {
-  border-right: 1px solid #bebdbd;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: #3e4151;
+  min-width: 20.5%;
 }
 .sidebar__list {
   list-style: none;
   text-align: right;
 }
 .sidebar__list__item {
-  padding: 0.5rem 4rem;
+  padding: 0.5rem 5rem 0.5rem 0;
   cursor: pointer;
 }
 .sidebar__list__item:hover {
@@ -240,4 +241,85 @@ main {
   font-weight: bold;
   color: #ec8639;
   border-right: 5px solid #ec8639;
+}
+
+.content {
+  margin-top: -5rem;
+  padding: 5rem 5rem 5rem;
+  border-left: 1px solid #bebdbd;
+}
+.content__heading {
+  /* padding-bottom: 3rem; */
+}
+.content__heading--big {
+  font-size: 3rem;
+  color: #3e4151;
+}
+.content__heading--small {
+  color: #90939b;
+  font-size: 1.2rem;
+}
+.content__list {
+  display: flex;
+  flex-direction: column;
+}
+.content__list__item {
+  display: flex;
+  padding: 3rem 0;
+  color: #3e4151;
+  border-bottom: 1px solid #bebdbd;
+}
+.content__list__item--text {
+  font-size: 1.6rem;
+}
+.non-veg {
+  color: brown;
+  font-size: 2rem;
+  padding-bottom: 2rem;
+}
+.list__item__dish--name {
+  font-weight: bold;
+  padding-bottom: 2rem;
+}
+.list__item__dish--price {
+  padding-bottom: 2rem;
+  font-size: 1.4rem;
+}
+.list__item__dish--items {
+  font-size: 1.4rem;
+  color: #90939b;
+}
+.content__list__item--image {
+  /* padding: 3rem 0 3rem 5rem; */
+  padding-left: 2rem;
+  display: flex;
+  position: relative;
+}
+.list__item__dish--image {
+  width: 15rem;
+  height: 12rem;
+  border: 1px solid;
+  border-radius: 1rem;
+}
+.list__item__dish--btn {
+  font-family: inherit;
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 1rem 3rem;
+  background-color: #fff;
+  outline: none;
+  border: 1px solid #bebdbd;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translate(50%, -40%);
+  color: #74b055;
+  cursor: pointer;
+}
+.list__item__dish--btn:hover {
+  box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.cart {
+  min-width: 25%;
 }
