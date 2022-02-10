@@ -189,7 +189,7 @@ main {
   font-weight: bold;
   padding: 1rem 2rem;
   cursor: pointer;
-  margin-left: 3rem;
+  margin-left: 2.5rem;
   box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
 }
 .restaurant__info__input-group--checkbox:hover {
@@ -198,7 +198,7 @@ main {
 
 .restaurant__info__input--favourite {
   padding: 1rem 2rem;
-  margin-left: 3rem;
+  margin-left: 2.5rem;
   background-color: #fff;
   border: none;
   outline: none;
@@ -211,4 +211,33 @@ main {
 }
 .restaurant__info__input--favourite:hover {
   color: salmon;
+}
+
+/* Restaurant Info section ends */
+
+/* Content Section starts */
+.content-section {
+  display: flex;
+  padding: 5rem 15%;
+}
+.sidebar {
+  border-right: 1px solid #bebdbd;
+  font-size: 1.6rem;
+  color: #3e4151;
+}
+.sidebar__list {
+  list-style: none;
+  text-align: right;
+}
+.sidebar__list__item {
+  padding: 0.5rem 4rem;
+  cursor: pointer;
+}
+.sidebar__list__item:hover {
+  color: #ec8639;
+}
+.sidebar__list__item--active {
+  font-weight: bold;
+  color: #ec8639;
+  border-right: 5px solid #ec8639;
 }
