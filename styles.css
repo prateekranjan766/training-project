@@ -11,6 +11,7 @@ html {
 
 main {
   min-height: 80vh;
+  /* z-index: -1; */
 }
 
 /* <-- Header or Navbar --> */
@@ -88,10 +89,12 @@ main {
 }
 
 .restaurant__info {
+  margin-right: auto;
   padding: 0 5rem;
   display: flex;
   flex-direction: column;
   font-size: 1.4rem;
+  position: relative;
 }
 .restaurant__info--name {
   font-size: 3rem;
@@ -123,7 +126,6 @@ main {
 }
 
 .restaurant__offer {
-  margin-left: auto;
   border: 1px solid #bebdbd;
   font-size: 1.6rem;
   padding: 4rem 2rem 0;
@@ -147,4 +149,66 @@ main {
 }
 .restaurant__offer__icon {
   padding-right: 1rem;
+}
+
+.restaurant__info__input-fields {
+  display: flex;
+  padding-top: 1rem;
+  position: absolute;
+  width: 110%;
+  bottom: -7rem;
+}
+.restaurant__info__input-group {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
+.restaurant__info__input--search {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1rem 2rem;
+  padding-inline-start: 5rem;
+  border: none;
+}
+.restaurant__info__input--search::placeholder {
+  font-weight: bold;
+}
+.restaurant__info__input--search:focus {
+  outline: none;
+}
+.restaurant__info__input-icon {
+  position: absolute;
+  top: 25%;
+  left: 1.5rem;
+  font-size: 1.8rem;
+  color: #3e4151;
+}
+.restaurant__info__input-group--checkbox {
+  background-color: #fff;
+  color: #3e4151;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  margin-left: 3rem;
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
+.restaurant__info__input-group--checkbox:hover {
+  color: #74b055;
+}
+
+.restaurant__info__input--favourite {
+  padding: 1rem 2rem;
+  margin-left: 3rem;
+  background-color: #fff;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: inherit;
+  color: #3e4151;
+  cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
+.restaurant__info__input--favourite:hover {
+  color: salmon;
 }
