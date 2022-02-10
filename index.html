@@ -30,34 +30,34 @@
       </div>
       <ul class="header__navigation-list">
         <li class="header__navigation__item">
-          <span class="header__navigation__icon"
-            ><i class="fa-solid fa-magnifying-glass"></i
-          ></span>
-          <a href="#" class="header__navigation__link"> Search</a>
+          <a href="#" class="header__navigation__link">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            &#160;Search</a
+          >
         </li>
         <li class="header__navigation__item">
-          <span class="header__navigation__icon">
-            <i class="fa-solid fa-tags"></i
-          ></span>
-          <a href="#" class="header__navigation__link"> Offers</a>
+          <a href="#" class="header__navigation__link">
+            <i class="fa-solid fa-tags"></i>
+            &#160;Offers</a
+          >
         </li>
         <li class="header__navigation__item">
-          <span class="header__navigation__icon">
-            <i class="fa-solid fa-handshake-angle"></i
-          ></span>
-          <a href="#" class="header__navigation__link"> Help</a>
+          <a href="#" class="header__navigation__link">
+            <i class="fa-solid fa-handshake-angle"></i>
+            &#160;Help</a
+          >
         </li>
         <li class="header__navigation__item">
-          <span class="header__navigation__icon">
-            <i class="fa-solid fa-circle-user"></i
-          ></span>
-          <a href="#" class="header__navigation__link"> Sign In</a>
+          <a href="#" class="header__navigation__link">
+            <i class="fa-solid fa-circle-user"></i>
+            &#160;Sign In</a
+          >
         </li>
         <li class="header__navigation__item">
-          <span class="header__navigation__icon">
-            <i class="fa-solid fa-cart-shopping"></i
-          ></span>
-          <a href="#" class="header__navigation__link"> Cart</a>
+          <a href="#" class="header__navigation__link">
+            <i class="fa-solid fa-cart-shopping"></i>
+            &#160;Cart</a
+          >
         </li>
       </ul>
     </header>
@@ -237,10 +237,119 @@
                 <button class="list__item__dish--btn">ADD</button>
               </div>
             </li>
+            <li class="content__list__item">
+              <div class="content__list__item--text">
+                <!-- Veg or Non Veg icon -->
+                <p class="non-veg">
+                  <i class="fa-solid fa-square-caret-up"></i>
+                </p>
+                <!-- Name -->
+                <p class="list__item__dish--name">
+                  Premium Butter Chicken Roti Thali
+                </p>
+                <!-- Pricing -->
+                <p class="list__item__dish--price">&#x20B9; 289</p>
+                <!-- dishes -->
+                <p class="list__item__dish--items">
+                  Butter Chicken , 2 nos roti served with pickle , raita ,gulab
+                  jamun, 2 Pcs Chicken Tikka
+                </p>
+              </div>
+              <div class="content__list__item--image">
+                <!-- Image -->
+                <img
+                  class="list__item__dish--image"
+                  src="./sample-image.jpeg"
+                  alt="food-image"
+                />
+                <!-- Button -->
+                <button class="list__item__dish--btn">ADD</button>
+              </div>
+            </li>
+            <li class="content__list__item">
+              <div class="content__list__item--text">
+                <p class="non-veg">
+                  <i class="fa-solid fa-square-caret-up"></i>
+                </p>
+                <p class="list__item__dish--name">
+                  Premium Butter Chicken Roti Thali
+                </p>
+                <p class="list__item__dish--price">&#x20B9; 289</p>
+
+                <p class="list__item__dish--items">
+                  Butter Chicken , 2 nos roti served with pickle , raita ,gulab
+                  jamun, 2 Pcs Chicken Tikka
+                </p>
+              </div>
+              <div class="content__list__item--image">
+                <img
+                  class="list__item__dish--image"
+                  src="./sample-image.jpeg"
+                  alt="food-image"
+                />
+                <button class="list__item__dish--btn">ADD</button>
+              </div>
+            </li>
           </ul>
         </div>
         <!--  -->
-        <div class="cart">Cart</div>
+        <div class="cart">
+          <div class="content__heading">
+            <h1 class="content__heading--big">Cart</h1>
+            <p class="content__heading--small">2 ITEMS</p>
+          </div>
+          <ul class="cart__list">
+            <li class="cart__list__items">
+              <p class="non-veg">
+                <i class="fa-solid fa-square-caret-up"></i>
+              </p>
+              <p class="cart__list__items--heading">
+                Premium Butter Chicken Roti Thali
+              </p>
+              <div class="cart__list__items--buttons">
+                <button class="cart__list__items--btn">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <button class="cart__list__items--value">1</button>
+                <button class="cart__list__items--btn">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+
+              <p class="cart__list__items--price">&#x20B9; 289</p>
+            </li>
+            <li class="cart__list__items">
+              <p class="non-veg">
+                <i class="fa-solid fa-square-caret-up"></i>
+              </p>
+              <p class="cart__list__items--heading">
+                Premium Butter Chicken Roti Thali
+              </p>
+              <div class="cart__list__items--buttons">
+                <button class="cart__list__items--btn">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <button class="cart__list__items--value">1</button>
+                <button class="cart__list__items--btn">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+
+              <p class="cart__list__items--price">&#x20B9; 289</p>
+            </li>
+          </ul>
+          <div class="cart__summary">
+            <div class="cart__summary__heading">
+              <p class="cart__summary__heading--primary">Subtotal</p>
+              <p class="cart__summary__heading--secondary">
+                Extra charges may apply
+              </p>
+            </div>
+            <p class="cart__summary__price">&#x20B9; 578</p>
+          </div>
+
+          <button class="cart__btn">Checkout &#8594;</button>
+        </div>
       </section>
     </main>
 
