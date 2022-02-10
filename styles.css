@@ -41,8 +41,6 @@ main {
 .header__logo {
   width: 5rem;
   height: 5rem;
-  border-radius: 50%;
-  border: 1px solid;
 }
 .header__navigation-list {
   list-style: none;
@@ -226,6 +224,8 @@ main {
   display: flex;
   padding: 5rem 15%;
   position: relative;
+
+  box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 .sidebar {
   font-size: 1.4rem;
@@ -273,6 +273,8 @@ main {
   display: flex;
   padding: 3rem 0;
   color: #3e4151;
+}
+.content__list__item:not(:last-child) {
   border-bottom: 1px solid #bebdbd;
 }
 .content__list__item--text {
@@ -303,7 +305,6 @@ main {
 .list__item__dish--image {
   width: 15rem;
   height: 12rem;
-  border: 1px solid;
   border-radius: 1rem;
 }
 .list__item__dish--btn {
@@ -409,5 +410,79 @@ main {
   cursor: pointer;
 }
 .cart__btn:hover {
-  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0.2rem 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+/* .about-section {
+  padding: 10rem;
+  background-color: #e9e9eb;
+  display: flex;
+}
+.address__heading {
+  text-align: center;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  color: #3e4151;
+} */
+.footer {
+  background-color: #000;
+  padding: 10rem 15% 5rem;
+  color: #fff;
+  margin-top: -5rem;
+  font-size: 1.6rem;
+}
+.company-info {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid #bebdbd;
+}
+.company-info__type {
+  font-weight: bold;
+  color: #90939b;
+  padding-bottom: 2rem;
+  text-transform: uppercase;
+}
+.company-info__list {
+  list-style: none;
+}
+.company-info__list__item {
+  font-weight: 300;
+  padding-bottom: 2rem;
+}
+.company-info__list__item > a {
+  text-decoration: none;
+  color: #fff;
+}
+.company-info__downloads {
+  display: flex;
+  flex-direction: column;
+}
+.copyright-section {
+  padding-top: 4rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+.copyright__logo {
+  width: 15rem;
+}
+.copyright__text {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.6rem;
+}
+.social-media {
+  display: flex;
+  justify-content: space-between;
+  min-width: 20rem;
+}
+.social-media__icons {
+  text-decoration: none;
+  font-size: 3rem;
+  color: #fff;
+  transition: transform 0.3s;
+}
+.social-media__icons:hover {
+  transform: scale(1.2);
 }
