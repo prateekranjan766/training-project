@@ -1,0 +1,150 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Lato", sans-serif;
+  font-size: 62.5%;
+}
+
+main {
+  min-height: 80vh;
+}
+
+/* <-- Header or Navbar --> */
+.header {
+  font-size: 1.6rem;
+  height: 8rem;
+  padding: 0 15%;
+  margin: 0 auto;
+  display: flex;
+  box-shadow: 0rem 0.2rem 2rem rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+.header__logo-box {
+  font-size: inherit;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.header__logo-box__link {
+  text-decoration: none;
+  align-self: center;
+  padding: 1rem;
+  color: #3e4151;
+}
+
+.header__logo {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border: 1px solid;
+}
+.header__navigation-list {
+  list-style: none;
+  font-size: 1.6rem;
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+}
+.header__navigation__item {
+  padding: 2.5rem;
+  color: #3e4151;
+}
+.header__navigation__icon {
+  font-size: 1.7rem;
+  padding: 0 0.5rem;
+  color: #3e4151;
+}
+.header__navigation__link {
+  font-size: 1.6rem;
+  text-decoration: none;
+  color: #3e4151;
+  padding: 0 0.3rem;
+}
+
+/* <-- Header Ends --> */
+
+/* <-- Sections --> */
+.url__location {
+  padding: 1rem 15%;
+  color: #90939b;
+  background-color: #f6f7f6;
+  z-index: -1;
+}
+
+.restaurant__section {
+  background-color: #262424;
+  display: flex;
+  color: #fff;
+  padding: 5rem 15%;
+}
+
+.restaurant__image {
+  width: 25rem;
+}
+
+.restaurant__info {
+  padding: 0 5rem;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+}
+.restaurant__info--name {
+  font-size: 3rem;
+  padding-bottom: 1rem;
+}
+.restaurant__info--type,
+.restaurant__info--address {
+  color: #bebdbd;
+  padding: 0rem 0.05rem 1rem 0;
+}
+
+.restaurants__highlights {
+  display: flex;
+  padding-top: 3rem;
+}
+.restaurants__highlights > *:not(:last-child) {
+  padding-right: 4rem;
+  border-right: 1px solid;
+}
+.restaurants__highlights > *:not(:first-child) {
+  padding-left: 4rem;
+}
+.restaurants__highlights__features {
+  text-align: center;
+}
+.restaurants__highlights__text {
+  color: #90939b;
+  font-size: 1.3rem;
+}
+
+.restaurant__offer {
+  margin-left: auto;
+  border: 1px solid #bebdbd;
+  font-size: 1.6rem;
+  padding: 4rem 2rem 0;
+  width: 25%;
+  position: relative;
+}
+.restaurant__offer__heading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-12%, -40%);
+  font-size: 2rem;
+  background-color: #262424;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+.restaurant__offer__item {
+  padding-bottom: 1.5rem;
+  display: flex;
+  align-content: center;
+}
+.restaurant__offer__icon {
+  padding-right: 1rem;
+}
