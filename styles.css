@@ -263,6 +263,7 @@ main {
 .content__heading--big {
   font-size: 3rem;
   color: #3e4151;
+  text-transform: capitalize;
 }
 .content__heading--small {
   color: #90939b;
@@ -274,6 +275,7 @@ main {
 }
 .content__list__item {
   display: flex;
+  flex-grow: 1;
   padding: 3rem 0;
   color: #3e4151;
 }
@@ -282,6 +284,7 @@ main {
 }
 .content__list__item--text {
   font-size: 1.6rem;
+  margin-right: auto;
 }
 .non-veg {
   color: brown;
@@ -306,6 +309,7 @@ main {
 .content__list__item__img-container {
   /* padding: 3rem 0 3rem 5rem; */
   padding-left: 2rem;
+  margin-left: auto;
   display: flex;
   justify-content: flex-start;
   position: relative;
