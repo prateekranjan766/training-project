@@ -2,7 +2,18 @@
 (function swiggyClone() {
   //Model
   model = {
-    sidebarList: {
+    sidebarList: [
+      "recommended",
+      "platters",
+      "starters",
+      "family binge packs",
+      "main course",
+      "rice & indian breads",
+      "premium thalis",
+      "deserts & beverages",
+      "accomniments",
+    ],
+    sidebarListItems: {
       recommended: [
         {
           isVeg: false,
@@ -39,6 +50,19 @@
     clearList: function () {
       const contentList = document.querySelector(".content__list");
       contentList.innerHTML = "";
+      const sidebarList = document.querySelector(".sidebar__list");
+      sidebarList.innerHTML = "";
+    },
+
+    renderSidebarMenuItems: function (item) {
+      const sidebarList = document.querySelector(".sidebar__list");
+
+      let sidebarListItem = document.createElement("li");
+      sidebarListItem.setAttribute("class", "sidebar__list__item");
+      //   if the menu is active use this class-> .sidebar__list__item--active
+      sidebarListItem.innerHTML = item;
+      console.log(item);
+      sidebarList.appendChild(sidebarListItem);
     },
 
     renderMenuItems: function (item) {
@@ -76,8 +100,12 @@
       contentList.appendChild(contentListItem);
     },
 
-    render: function (menuItems) {
+    render: function (sidebarList, menuItems) {
       this.clearList();
+
+      for (let i = 0; i < sidebarList.length; i++) {
+        this.renderSidebarMenuItems(sidebarList[i]);
+      }
 
       for (let i = 0; i < menuItems.length; i++) {
         this.renderMenuItems(menuItems[i]);
@@ -92,9 +120,9 @@
     },
 
     getListItems: function (menuType) {
-      const data = model.sidebarList[menuType];
-      console.log(data);
-      view.render(data);
+      const sidebarList = model.sidebarList;
+      const menuItems = model.sidebarListItems[menuType];
+      view.render(sidebarList, menuItems);
     },
   };
 
