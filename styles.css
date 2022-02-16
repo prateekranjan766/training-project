@@ -286,6 +286,10 @@ main {
   color: brown;
   font-size: 2rem;
 }
+.veg {
+  color: #74b055;
+  font-size: 2rem;
+}
 .list__item__dish-name {
   font-weight: bold;
   padding: 2rem 0;
@@ -302,6 +306,7 @@ main {
   /* padding: 3rem 0 3rem 5rem; */
   padding-left: 2rem;
   display: flex;
+  justify-content: flex-start;
   position: relative;
 }
 .list__item__dish-image {
@@ -313,13 +318,13 @@ main {
   font-family: inherit;
   font-size: 1.4rem;
   font-weight: bold;
-  padding: 1rem 3rem;
+  padding: 1rem 3.35rem;
   background-color: #fff;
   border: 1px solid #bebdbd;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  transform: translate(50%, -40%);
+  transform: translate(45%, 230%);
   color: #74b055;
   cursor: pointer;
 }
