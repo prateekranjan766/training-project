@@ -38,8 +38,7 @@ import getDishByMenu from "./models/dishModel.js";
   }
 
   function updateActiveIndex(e) {
-    console.log(e.target);
-    const item = e.target;
+    const item = e.target || 0;
 
     const index = getIndex(item);
     const menuItems = getDishByMenu(menuList[index]);
@@ -56,22 +55,15 @@ import getDishByMenu from "./models/dishModel.js";
     const sidebarList = document.querySelector(".sidebar__list");
     sidebarList.addEventListener("click", updateActiveIndex);
 
-    render();
-    // this.getListItems(model.activeMenuIndex);
+    state.activeMenuItems = getDishByMenu(menuList[0]);
 
-    // const addTaskForm = document.getElementById("to-do__add-task");
-    // addTaskForm.addEventListener("submit", addTodo);
-    // const todoList = document.querySelector(".to-do__list");
-    // todoList.addEventListener("click", removeTask);
-    // todoList.addEventListener("click", editTask);
-    // todoList.addEventListener("click", toggleCheck);
-    // const removeBtn = document.querySelector(".remove-btn");
-    // removeBtn.addEventListener("click", removeCheckedTasks);
+    render();
+    // this.getListItems(activeMenuIndex);
   }
 
   function clearList() {
-    // const contentList = document.querySelector(".content__list");
-    // contentList.innerHTML = "";
+    const contentList = document.querySelector(".content__list");
+    contentList.innerHTML = "";
     const sidebarList = document.querySelector(".sidebar__list");
     sidebarList.innerHTML = "";
   }
@@ -87,6 +79,42 @@ import getDishByMenu from "./models/dishModel.js";
     sidebarListItem.innerHTML = item;
     sidebarList.appendChild(sidebarListItem);
   }
+
+  function renderMenuItems(item) {
+    const contentList = document.querySelector(".content__list");
+
+    const { isVeg, name, price, description, image } = item;
+
+    let contentListItem = document.createElement("li");
+    contentListItem.setAttribute("class", "content__list__item");
+    contentListItem.innerHTML = `
+      <div class="content__list__item--text">
+          ${
+            isVeg
+              ? '<p class="veg"><i class="fa-solid fa-circle-stop"></i></p>'
+              : '<p class="non-veg"><i class="fa-solid fa-square-caret-up"></i></p>'
+          }
+          <p class="list__item__dish-name">
+              ${name}
+          </p>
+          <p class="list__item__dish-price">&#x20B9; ${price}</p>
+          <p class="list__item__dish-items">
+              ${description}
+          </p>
+      </div>
+      <div class="content__list__item__img-container">
+          <img
+              class="list__item__dish-image"
+              src=${image}
+              alt="food-image"
+          />
+          <button class="list__item__dish-btn">ADD</button>
+      </div>
+      `;
+
+    contentList.appendChild(contentListItem);
+  }
+
   function render() {
     // clearing
     clearList();
@@ -94,6 +122,10 @@ import getDishByMenu from "./models/dishModel.js";
     //rendering
     for (let i = 0; i < menuList.length; i++) {
       renderSidebarMenuItems(menuList[i], i);
+    }
+
+    for (let i = 0; i < state.activeMenuItems.length; i++) {
+      renderMenuItems(state.activeMenuItems[i]);
     }
   }
 
