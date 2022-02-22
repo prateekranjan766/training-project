@@ -1,3 +1,22 @@
+import {
+  naan,
+  bakedGajarHalwa,
+  butterChicken,
+  dhaniyaChickenTikka,
+  greenChutney,
+  gulabJamun,
+  kadaiPaneer,
+  mixedPlatter,
+  lachhaParatha,
+  nonVegPlatter,
+  paneerMalaiTikka,
+  premiumButterChickenRotiThali,
+  premiumKadhaiChickenPulaoThali,
+  punjabiChickencurry,
+  raita,
+  vegPlatter,
+} from "./imageConstants.js";
+
 function Dish(name, price, description, image, isVeg, isBestseller) {
   this.name = name;
   this.price = price;
@@ -55,14 +74,14 @@ const menuDishItems = {
       .setDescription(
         "Butter Chicken , 2 nos roti served with pickle , raita ,gulab jamun, 2 Pcs Chicken Tikka"
       )
-      .setImage("./images/dishes/premium-butter-chicken-roti-thali.jpeg"),
+      .setImage(premiumButterChickenRotiThali),
     new DishBuilder()
       .setName("Veg Platter")
       .setPrice(699)
       .setDescription(
         "An authentic veg platter with 3 pieces of Paneer Achari, 3 pieces of Hara Bhara, 3 pieces of Veg Seekh and 3 pieces of Malai Chaap."
       )
-      .setImage("./images/dishes/veg-platter.jpeg"),
+      .setImage(vegPlatter),
     new DishBuilder()
       .setNonVeg()
       .setName("Non Veg Platter")
@@ -70,7 +89,7 @@ const menuDishItems = {
       .setDescription(
         "An authentic non veg platter with 3 pieces of Barnala Mathi Chicken Tikka, 3 pieces of Dhaniya Chicken, 3 pieces of Tawa Chicken and 3 pieces of Chicken Kebab."
       )
-      .setImage("./images/dishes/non-veg-platter.jpeg"),
+      .setImage(nonVegPlatter),
   ],
   platters: [
     new DishBuilder()
@@ -80,14 +99,14 @@ const menuDishItems = {
       .setDescription(
         "An authentic mixed platter with 3 pieces of Barnala Methi Chicken, 3 pieces of Chicken Kebab, 3 pieces of Hara Bhara and 3 pieces of Paneer Tikka."
       )
-      .setImage("./images/dishes/mixed-platter.jpeg"),
+      .setImage(mixedPlatter),
     new DishBuilder()
       .setName("Veg Platter")
       .setPrice(699)
       .setDescription(
         "An authentic veg platter with 3 pieces of Paneer Achari, 3 pieces of Hara Bhara, 3 pieces of Veg Seekh and 3 pieces of Malai Chaap."
       )
-      .setImage("./images/dishes/veg-platter.jpeg"),
+      .setImage(vegPlatter),
   ],
   starters: [
     new DishBuilder()
@@ -96,7 +115,7 @@ const menuDishItems = {
       .setDescription(
         "Slow-cooked Paneer Tikka mildly flavoured with rich cream."
       )
-      .setImage("./images/dishes/paneer-malai-tikka.jpeg"),
+      .setImage(paneerMalaiTikka),
     new DishBuilder()
       .setNonVeg()
       .setName("Dhaniya Chicken Tikka")
@@ -104,7 +123,7 @@ const menuDishItems = {
       .setDescription(
         "Succulent chicken marinated & flavoured with fresh coriander, grilled to perfection."
       )
-      .setImage("./images/dishes/dhaniya-chicken-tikka.jpeg"),
+      .setImage(dhaniyaChickenTikka),
   ],
   "family binge packs": [
     new DishBuilder()
@@ -114,14 +133,14 @@ const menuDishItems = {
       .setDescription(
         "Succulent chicken marinated & flavoured with fresh coriander, grilled to perfection."
       )
-      .setImage("./images/dishes/dhaniya-chicken-tikka.jpeg"),
+      .setImage(dhaniyaChickenTikka),
     new DishBuilder()
       .setName("Kadai Paneer Binge Pack For 4")
       .setPrice(999)
       .setDescription(
         "A surprising binge pack of Kadai Paneer, Naan (4Pcs) & Gulab Jamun (4 Pcs) that serves 4."
       )
-      .setImage("./images/dishes/kadai-paneer.jpeg"),
+      .setImage(kadaiPaneer),
   ],
   "main course": [
     new DishBuilder()
@@ -131,7 +150,7 @@ const menuDishItems = {
       .setDescription(
         "A classic chicken dish prepared in a rich sauce of tomato, butter and cream."
       )
-      .setImage("./images/dishes/butter-chicken.jpeg"),
+      .setImage(butterChicken),
     new DishBuilder()
       .setNonVeg()
       .setName("Punjbai Chicken Curry")
@@ -139,19 +158,19 @@ const menuDishItems = {
       .setDescription(
         "Delectable chicken dish prepared in a thick and rich flavourful gravy."
       )
-      .setImage("./images/dishes/punjabi-chicken-curry.jpeg"),
+      .setImage(punjabiChickencurry),
   ],
   "rice & indian breads": [
     new DishBuilder()
       .setName("Naan")
       .setPrice(40)
       .setDescription("A leavened flatbread cooked in a tandoor (clay oven).")
-      .setImage("./images/dishes/naan.jpeg"),
+      .setImage(naan),
     new DishBuilder()
       .setName("Lachha Paratha")
       .setPrice(50)
       .setDescription("A layered Indian flatbread made with unleavened dough")
-      .setImage("./images/dishes/lachha-paratha.jpeg"),
+      .setImage(lachhaParatha),
   ],
   "premium thalis": [
     new DishBuilder()
@@ -161,7 +180,7 @@ const menuDishItems = {
       .setDescription(
         "Butter Chicken , 2 nos roti served with pickle , raita ,gulab jamun, 2 Pcs Chicken Tikka"
       )
-      .setImage("./images/dishes/premium-butter-chicken-roti-thali.jpeg"),
+      .setImage(premiumButterChickenRotiThali),
     new DishBuilder()
       .setNonVeg()
       .setName("Premium Kadhai Chicken Pulao Thali")
@@ -169,7 +188,7 @@ const menuDishItems = {
       .setDescription(
         "Kadhai Chicken , Pulao served with pickle , raita ,gulab jamun ,2 Pcs Chicken Tikka"
       )
-      .setImage("./images/dishes/premium-kadhai-chicken-pulao-thali.jpeg"),
+      .setImage(premiumKadhaiChickenPulaoThali),
   ],
   "deserts & beverages": [
     new DishBuilder()
@@ -178,28 +197,28 @@ const menuDishItems = {
       .setDescription(
         "Sweet and sumptuous dough balls soaked in cinnamon flavoured sugar syrup."
       )
-      .setImage("./images/dishes/gulab-jamun.jpeg"),
+      .setImage(gulabJamun),
     new DishBuilder()
       .setName("Baked Gajar Halwa")
       .setPrice(99)
       .setDescription(
         "Melt-in-mouth delight made with fresh carrots and pure ghee."
       )
-      .setImage("./images/dishes/baked-gajar-halwa.jpeg"),
+      .setImage(bakedGajarHalwa),
   ],
   accomniments: [
     new DishBuilder()
       .setName("Raita")
       .setPrice(69)
       .setDescription("A delish side dish made with fresh curd and vegetables.")
-      .setImage("./images/dishes/raita.jpeg"),
+      .setImage(raita),
     new DishBuilder()
       .setName("Green Chutney")
       .setPrice(49)
       .setDescription(
         "A flavourful condiment made with mint and corriander leaves."
       )
-      .setImage("./images/dishes/green-chutney.jpeg"),
+      .setImage(greenChutney),
   ],
 };
 

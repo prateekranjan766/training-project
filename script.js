@@ -17,14 +17,12 @@ import getDishByMenu from "./models/dishModel.js";
         isVeg: false,
         name: "Premium Butter Chicken Roti Thali",
         price: 289,
-        image: "./images/dishes/premium-butter-chicken-roti-thali.jpeg",
         qty: 1,
       },
       {
         isVeg: true,
         name: "Veg Platter",
         price: 699,
-        image: "./images/dishes/veg-platter.jpeg",
         qty: 1,
       },
     ],
@@ -42,6 +40,7 @@ import getDishByMenu from "./models/dishModel.js";
     }
   }
 
+  //@description    returns the index of the list item from the DOM.
   function getIndex(element) {
     const sidebarList = document.querySelector(".sidebar__list");
     const len = sidebarList.childNodes.length;
@@ -53,6 +52,7 @@ import getDishByMenu from "./models/dishModel.js";
     return 0;
   }
 
+  //@description    Updates the active menu index when menu is changed.
   function updateActiveIndex(e) {
     const item = e.target || 0;
 
@@ -67,6 +67,7 @@ import getDishByMenu from "./models/dishModel.js";
     render();
   }
 
+  //@description    All initialization and event listeners are added here.
   function init() {
     const sidebarList = document.querySelector(".sidebar__list");
     sidebarList.addEventListener("click", updateActiveIndex);
@@ -77,6 +78,7 @@ import getDishByMenu from "./models/dishModel.js";
     // this.getListItems(activeMenuIndex);
   }
 
+  //@description    Clears the DOM (the parts which are rendered dynamically)
   function clearList() {
     const contentList = document.querySelector(".content__list");
     contentList.innerHTML = "";
@@ -86,6 +88,7 @@ import getDishByMenu from "./models/dishModel.js";
     cartList.innerHTML = "";
   }
 
+  //@description    renders the menu items in the sidebar
   function renderSidebarMenuItems(item, index) {
     const sidebarList = document.querySelector(".sidebar__list");
 
@@ -98,6 +101,7 @@ import getDishByMenu from "./models/dishModel.js";
     sidebarList.appendChild(sidebarListItem);
   }
 
+  //@description    renders the dishes in the content section
   function renderMenuItems(item) {
     const contentList = document.querySelector(".content__list");
 
@@ -132,6 +136,7 @@ import getDishByMenu from "./models/dishModel.js";
     contentList.appendChild(contentListItem);
   }
 
+  //@description    renders the heading of currently selected menu
   function renderMenuHeading() {
     const contentHeading = document.querySelector(".content__heading");
     contentHeading.innerHTML = `
@@ -142,6 +147,7 @@ import getDishByMenu from "./models/dishModel.js";
       `;
   }
 
+  //@description    renders the items in the cart
   function renderCartItems(item) {
     const cartList = document.querySelector(".cart__list");
     const { name, isVeg, price, qty } = item;
@@ -174,6 +180,7 @@ import getDishByMenu from "./models/dishModel.js";
     cartList.appendChild(cartItem);
   }
 
+  //@description    renders the dynamically rendered elements in the DOM
   function render() {
     // clearing
     clearList();
