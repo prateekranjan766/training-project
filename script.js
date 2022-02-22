@@ -12,6 +12,22 @@ import getDishByMenu from "./models/dishModel.js";
   let state = {
     activeMenu: 0,
     activeMenuItems: [],
+    cart: [
+      {
+        isVeg: false,
+        name: "Premium Butter Chicken Roti Thali",
+        price: 289,
+        image: "./images/dishes/premium-butter-chicken-roti-thali.jpeg",
+        qty: 1,
+      },
+      {
+        isVeg: true,
+        name: "Veg Platter",
+        price: 699,
+        image: "./images/dishes/veg-platter.jpeg",
+        qty: 1,
+      },
+    ],
   };
 
   // Reducer
@@ -66,6 +82,8 @@ import getDishByMenu from "./models/dishModel.js";
     contentList.innerHTML = "";
     const sidebarList = document.querySelector(".sidebar__list");
     sidebarList.innerHTML = "";
+    const cartList = document.querySelector(".cart__list");
+    cartList.innerHTML = "";
   }
 
   function renderSidebarMenuItems(item, index) {
@@ -90,9 +108,9 @@ import getDishByMenu from "./models/dishModel.js";
     contentListItem.innerHTML = `
       <div class="content__list__item--text">
           ${
-            isVeg
-              ? '<p class="veg"><i class="fa-solid fa-circle-stop"></i></p>'
-              : '<p class="non-veg"><i class="fa-solid fa-square-caret-up"></i></p>'
+            isVeg === false
+              ? '<p class="non-veg"><i class="fa-solid fa-square-caret-up"></i></p>'
+              : '<p class="veg"><i class="fa-solid fa-circle-stop"></i></p>'
           }
           <p class="list__item__dish-name">
               ${name}
@@ -111,8 +129,49 @@ import getDishByMenu from "./models/dishModel.js";
           <button class="list__item__dish-btn">ADD</button>
       </div>
       `;
-
     contentList.appendChild(contentListItem);
+  }
+
+  function renderMenuHeading() {
+    const contentHeading = document.querySelector(".content__heading");
+    contentHeading.innerHTML = `
+      <h1 class="content__heading--big">${menuList[state.activeMenu]}</h1>
+      <p class="content__heading--small">${
+        state.activeMenuItems.length
+      } ITEMS</p>
+      `;
+  }
+
+  function renderCartItems(item) {
+    const cartList = document.querySelector(".cart__list");
+    const { name, isVeg, price, qty } = item;
+
+    const cartItem = document.createElement("li");
+    cartItem.setAttribute("class", "cart__list__items");
+
+    cartItem.innerHTML = `
+    ${
+      isVeg === false
+        ? '<p class="non-veg"><i class="fa-solid fa-square-caret-up"></i></p>'
+        : '<p class="veg"><i class="fa-solid fa-circle-stop"></i></p>'
+    }
+        <p class="cart__list__items__heading">
+            ${name}
+        </p>
+        <div class="cart__list__items__buttons">
+            <button class="cart__list__items__btn">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+            <button class="cart__list__items__value">${qty}</button>
+            <button class="cart__list__items__btn">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <p class="cart__list__items__price">&nbsp; &#x20B9; ${price}</p>
+      `;
+
+    cartList.appendChild(cartItem);
   }
 
   function render() {
@@ -124,8 +183,13 @@ import getDishByMenu from "./models/dishModel.js";
       renderSidebarMenuItems(menuList[i], i);
     }
 
+    renderMenuHeading();
     for (let i = 0; i < state.activeMenuItems.length; i++) {
       renderMenuItems(state.activeMenuItems[i]);
+    }
+
+    for (let i = 0; i < state.cart.length; i++) {
+      renderCartItems(state.cart[i]);
     }
   }
 

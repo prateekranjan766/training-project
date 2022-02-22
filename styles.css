@@ -264,6 +264,7 @@ main {
 .content__heading--big {
   font-size: 3rem;
   color: #3e4151;
+  text-transform: capitalize;
 }
 .content__heading--small {
   color: #90939b;
@@ -287,6 +288,10 @@ main {
 }
 .non-veg {
   color: brown;
+  font-size: 2rem;
+}
+.veg {
+  color: #74b055;
   font-size: 2rem;
 }
 .list__item__dish-name {
@@ -345,7 +350,8 @@ main {
 .cart__list__items__heading {
   font-size: 1.4rem;
   padding: 0 1rem;
-  max-width: 50%;
+  width: 55%;
+  flex: 1;
 }
 .cart__list__items__buttons {
   position: relative;

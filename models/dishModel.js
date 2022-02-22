@@ -115,6 +115,13 @@ const menuDishItems = {
         "Succulent chicken marinated & flavoured with fresh coriander, grilled to perfection."
       )
       .setImage("./images/dishes/dhaniya-chicken-tikka.jpeg"),
+    new DishBuilder()
+      .setName("Kadai Paneer Binge Pack For 4")
+      .setPrice(999)
+      .setDescription(
+        "A surprising binge pack of Kadai Paneer, Naan (4Pcs) & Gulab Jamun (4 Pcs) that serves 4."
+      )
+      .setImage("./images/dishes/kadai-paneer.jpeg"),
   ],
   "main course": [
     new DishBuilder()
@@ -125,6 +132,14 @@ const menuDishItems = {
         "A classic chicken dish prepared in a rich sauce of tomato, butter and cream."
       )
       .setImage("./images/dishes/butter-chicken.jpeg"),
+    new DishBuilder()
+      .setNonVeg()
+      .setName("Punjbai Chicken Curry")
+      .setPrice(249)
+      .setDescription(
+        "Delectable chicken dish prepared in a thick and rich flavourful gravy."
+      )
+      .setImage("./images/dishes/punjabi-chicken-curry.jpeg"),
   ],
   "rice & indian breads": [
     new DishBuilder()
@@ -132,6 +147,11 @@ const menuDishItems = {
       .setPrice(40)
       .setDescription("A leavened flatbread cooked in a tandoor (clay oven).")
       .setImage("./images/dishes/naan.jpeg"),
+    new DishBuilder()
+      .setName("Lachha Paratha")
+      .setPrice(50)
+      .setDescription("A layered Indian flatbread made with unleavened dough")
+      .setImage("./images/dishes/lachha-paratha.jpeg"),
   ],
   "premium thalis": [
     new DishBuilder()
@@ -142,6 +162,14 @@ const menuDishItems = {
         "Butter Chicken , 2 nos roti served with pickle , raita ,gulab jamun, 2 Pcs Chicken Tikka"
       )
       .setImage("./images/dishes/premium-butter-chicken-roti-thali.jpeg"),
+    new DishBuilder()
+      .setNonVeg()
+      .setName("Premium Kadhai Chicken Pulao Thali")
+      .setPrice(289)
+      .setDescription(
+        "Kadhai Chicken , Pulao served with pickle , raita ,gulab jamun ,2 Pcs Chicken Tikka"
+      )
+      .setImage("./images/dishes/premium-kadhai-chicken-pulao-thali.jpeg"),
   ],
   "deserts & beverages": [
     new DishBuilder()
@@ -151,6 +179,13 @@ const menuDishItems = {
         "Sweet and sumptuous dough balls soaked in cinnamon flavoured sugar syrup."
       )
       .setImage("./images/dishes/gulab-jamun.jpeg"),
+    new DishBuilder()
+      .setName("Baked Gajar Halwa")
+      .setPrice(99)
+      .setDescription(
+        "Melt-in-mouth delight made with fresh carrots and pure ghee."
+      )
+      .setImage("./images/dishes/baked-gajar-halwa.jpeg"),
   ],
   accomniments: [
     new DishBuilder()
@@ -158,6 +193,13 @@ const menuDishItems = {
       .setPrice(69)
       .setDescription("A delish side dish made with fresh curd and vegetables.")
       .setImage("./images/dishes/raita.jpeg"),
+    new DishBuilder()
+      .setName("Green Chutney")
+      .setPrice(49)
+      .setDescription(
+        "A flavourful condiment made with mint and corriander leaves."
+      )
+      .setImage("./images/dishes/green-chutney.jpeg"),
   ],
 };
 
