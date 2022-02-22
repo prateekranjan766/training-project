@@ -259,6 +259,7 @@ main {
   margin-top: -5rem;
   padding: 5rem 5rem 5rem;
   border-left: 1px solid #bebdbd;
+  width: 60%;
 }
 .content__heading--big {
   font-size: 3rem;
@@ -282,6 +283,7 @@ main {
 }
 .content__list__item--text {
   font-size: 1.6rem;
+  min-width: 70%;
 }
 .non-veg {
   color: brown;
@@ -303,6 +305,7 @@ main {
   /* padding: 3rem 0 3rem 5rem; */
   padding-left: 2rem;
   display: flex;
+  justify-content: flex-start;
   position: relative;
 }
 .list__item__dish-image {
@@ -318,9 +321,9 @@ main {
   background-color: #fff;
   border: 1px solid #bebdbd;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  transform: translate(50%, -40%);
+  transform: translate(50%, 240%);
   color: #74b055;
   cursor: pointer;
 }

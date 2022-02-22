@@ -2,7 +2,7 @@ import menuList from "./models/menuModel.js";
 import getDishByMenu from "./models/dishModel.js";
 
 // IIFE
-(function todoApp() {
+(function app() {
   // Action types
   const actions = {
     CHANGE_ACTIVE_MENU: "CHANGE_ACTIVE_MENU",
