@@ -6,6 +6,7 @@ import getDishByMenu from "./models/dishModel.js";
   // Action types
   const actions = {
     CHANGE_ACTIVE_MENU: "CHANGE_ACTIVE_MENU",
+    ADD_TO_CART: "ADD_TO_CART",
   };
 
   // State
@@ -17,7 +18,7 @@ import getDishByMenu from "./models/dishModel.js";
         isVeg: false,
         name: "Premium Butter Chicken Roti Thali",
         price: 289,
-        qty: 1,
+        qty: 25,
       },
       {
         isVeg: true,
@@ -35,17 +36,21 @@ import getDishByMenu from "./models/dishModel.js";
         state.activeMenu = payload.index;
         state.activeMenuItems = payload.menuItems;
         return state;
+      case actions.ADD_TO_CART:
+        const { cart } = state;
+        const updatedCart = [...cart, payload];
+        state.cart = updatedCart;
+        return state;
       default:
         return state;
     }
   }
 
   //@description    returns the index of the list item from the DOM.
-  function getIndex(element) {
-    const sidebarList = document.querySelector(".sidebar__list");
-    const len = sidebarList.childNodes.length;
+  function getIndex(element, list) {
+    const len = list.childNodes.length;
     for (let i = 0; i < len; i++) {
-      if (sidebarList.childNodes[i] === element) {
+      if (list.childNodes[i] === element) {
         return i;
       }
     }
@@ -55,8 +60,8 @@ import getDishByMenu from "./models/dishModel.js";
   //@description    Updates the active menu index when menu is changed.
   function updateActiveIndex(e) {
     const item = e.target || 0;
-
-    const index = getIndex(item);
+    const sidebarList = document.querySelector(".sidebar__list");
+    const index = getIndex(item, sidebarList);
     const menuItems = getDishByMenu(menuList[index]);
 
     const updatedState = changeState(state, actions.CHANGE_ACTIVE_MENU, {
@@ -67,11 +72,36 @@ import getDishByMenu from "./models/dishModel.js";
     render();
   }
 
+  //@description Adds an item to the cart
+  function addToCart(e) {
+    const btn = e.target;
+
+    if (btn.classList[0] === "list__item__dish-btn") {
+      const targetItem = btn.parentElement.parentElement;
+      const contentList = document.querySelector(".content__list");
+      const index = getIndex(targetItem, contentList);
+
+      const { isVeg, name, price } = state.activeMenuItems[index];
+
+      const updatedState = changeState(state, actions.ADD_TO_CART, {
+        isVeg,
+        name,
+        price,
+        qty: 1,
+      });
+      state = updatedState;
+
+      render();
+    }
+  }
+
   //@description    All initialization and event listeners are added here.
   function init() {
     const sidebarList = document.querySelector(".sidebar__list");
     sidebarList.addEventListener("click", updateActiveIndex);
 
+    const content__list = document.querySelector(".content__list");
+    content__list.addEventListener("click", addToCart);
     state.activeMenuItems = getDishByMenu(menuList[0]);
 
     render();
@@ -103,9 +133,15 @@ import getDishByMenu from "./models/dishModel.js";
 
   //@description    renders the dishes in the content section
   function renderMenuItems(item) {
+    for (let i = 0; i < state.cart.length; i++) {
+      if (item.name === state.cart[i].name) {
+        item.qty = state.cart[i].qty;
+        break;
+      }
+    }
     const contentList = document.querySelector(".content__list");
 
-    const { isVeg, name, price, description, image } = item;
+    const { isVeg, name, price, description, image, qty } = item;
 
     let contentListItem = document.createElement("li");
     contentListItem.setAttribute("class", "content__list__item");
@@ -130,7 +166,13 @@ import getDishByMenu from "./models/dishModel.js";
               src=${image}
               alt="food-image"
           />
-          <button class="list__item__dish-btn">ADD</button>
+          ${
+            qty
+              ? '<div class="content__list__items__buttons"><button class="content__list__items__btn"><i class="fa-solid fa-minus"></i></button><button class="content__list__items__value">' +
+                qty +
+                '</button><button class="content__list__items__btn"><i class="fa-solid fa-plus"></i></button></div>'
+              : '<button class="list__item__dish-btn">ADD</button>'
+          }
       </div>
       `;
     contentList.appendChild(contentListItem);
@@ -180,6 +222,17 @@ import getDishByMenu from "./models/dishModel.js";
     cartList.appendChild(cartItem);
   }
 
+  //@description    renders the count of the cart
+  function renderCartCount() {
+    const contentHeading = document.querySelector(".content__heading");
+    contentHeading.innerHTML = `
+      <h1 class="content__heading--big">${menuList[state.activeMenu]}</h1>
+      <p class="content__heading--small">${
+        state.activeMenuItems.length
+      } ITEMS</p>
+      `;
+  }
+
   //@description    renders the dynamically rendered elements in the DOM
   function render() {
     // clearing
@@ -195,6 +248,7 @@ import getDishByMenu from "./models/dishModel.js";
       renderMenuItems(state.activeMenuItems[i]);
     }
 
+    renderCartCount();
     for (let i = 0; i < state.cart.length; i++) {
       renderCartItems(state.cart[i]);
     }
