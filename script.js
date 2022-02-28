@@ -100,60 +100,90 @@ import { cartEmpty } from "./models/imageConstants.js";
   }
 
   //@description Increase the count in cart
-  function increaseCount(e) {
-    let btn = e.target;
-    if (btn.classList[0] === "content__list__items__btn") {
-      btn = btn.childNodes[0];
-    }
-    if (btn.classList[1] === "fa-plus") {
-      const target =
-        btn.parentElement.parentElement.parentElement.parentElement;
-      const contentList = document.querySelector(".content__list");
-      const idx = getIndex(target, contentList);
-      const { name } = state.activeMenuItems[idx];
+  function increaseCount(btn) {
+    const target = btn.parentElement.parentElement.parentElement.parentElement;
+    const contentList = document.querySelector(".content__list");
+    const idx = getIndex(target, contentList);
+    const { name } = state.activeMenuItems[idx];
 
-      for (let index = 0; index < state.cart.length; index++) {
-        if (state.cart[index].name === name) {
-          const updatedState = changeState(
-            state,
-            actions.INCREASE_COUNT_IN_CART,
-            index
-          );
-          state = updatedState;
+    for (let index = 0; index < state.cart.length; index++) {
+      if (state.cart[index].name === name) {
+        const updatedState = changeState(
+          state,
+          actions.INCREASE_COUNT_IN_CART,
+          index
+        );
+        state = updatedState;
 
-          render();
-          return;
-        }
+        render();
+        return;
       }
     }
   }
 
-  //@description Decrease the count in cart
-  function decreaseCount(e) {
+  //@description    Decrease the count in cart
+  function decreaseCount(btn) {
+    const target = btn.parentElement.parentElement.parentElement.parentElement;
+    const contentList = document.querySelector(".content__list");
+    const idx = getIndex(target, contentList);
+    const { name } = state.activeMenuItems[idx];
+
+    for (let index = 0; index < state.cart.length; index++) {
+      if (state.cart[index].name === name) {
+        const updatedState = changeState(
+          state,
+          actions.DECREASE_COUNT_IN_CART,
+          index
+        );
+        state = updatedState;
+
+        render();
+        return;
+      }
+    }
+  }
+
+  //@description    Decrease the count in cart from content
+  function decreaseCountFromContent(e) {
     let btn = e.target;
     if (btn.classList[0] === "content__list__items__btn") {
       btn = btn.childNodes[0];
     }
     if (btn.classList[1] === "fa-minus") {
-      const target =
-        btn.parentElement.parentElement.parentElement.parentElement;
-      const contentList = document.querySelector(".content__list");
-      const idx = getIndex(target, contentList);
-      const { name } = state.activeMenuItems[idx];
+      decreaseCount(btn);
+    }
+  }
 
-      for (let index = 0; index < state.cart.length; index++) {
-        if (state.cart[index].name === name) {
-          const updatedState = changeState(
-            state,
-            actions.DECREASE_COUNT_IN_CART,
-            index
-          );
-          state = updatedState;
+  //@description    Increase the count in cart from content
+  function increaseCountFromContent(e) {
+    let btn = e.target;
+    if (btn.classList[0] === "content__list__items__btn") {
+      btn = btn.childNodes[0];
+    }
+    if (btn.classList[1] === "fa-plus") {
+      increaseCount(btn);
+    }
+  }
 
-          render();
-          return;
-        }
-      }
+  //@description    Decrease the count in cart from cart
+  function decreaseCountFromCart(e) {
+    let btn = e.target;
+    if (btn.classList[0] === "cart__list__items__btn") {
+      btn = btn.childNodes[0];
+    }
+    if (btn.classList[1] === "fa-minus") {
+      decreaseCount(btn);
+    }
+  }
+
+  //@description    Increase the count in cart from cart
+  function increaseCountFromCart(e) {
+    let btn = e.target;
+    if (btn.classList[0] === "cart__list__items__btn") {
+      btn = btn.childNodes[0];
+    }
+    if (btn.classList[1] === "fa-plus") {
+      increaseCount(btn);
     }
   }
 
@@ -376,19 +406,23 @@ import { cartEmpty } from "./models/imageConstants.js";
   // function onUnmount() {
   //   // clean up code
   // }
+
   //@description    All initialization and event listeners are added here.
   function init() {
     const sidebarList = document.querySelector(".sidebar__list");
     sidebarList.addEventListener("click", updateActiveIndex);
 
-    const content__list = document.querySelector(".content__list");
-    content__list.addEventListener("click", addToCart);
-    content__list.addEventListener("click", increaseCount);
-    content__list.addEventListener("click", decreaseCount);
+    const contentList = document.querySelector(".content__list");
+    contentList.addEventListener("click", addToCart);
+    contentList.addEventListener("click", increaseCountFromContent);
+    contentList.addEventListener("click", decreaseCountFromContent);
+
+    const cartList = document.querySelector(".cart__list");
+    cartList.addEventListener("click", increaseCountFromCart);
+    cartList.addEventListener("click", decreaseCountFromCart);
     state.activeMenuItems = getDishByMenu(menuList[0]);
 
     render();
-    // this.getListItems(activeMenuIndex);
   }
 
   window.onload = function () {
