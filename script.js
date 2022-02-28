@@ -10,6 +10,8 @@ import { cartEmpty } from "./models/imageConstants.js";
     ADD_TO_CART: "ADD_TO_CART",
     INCREASE_COUNT_IN_CART: "INCREASE_COUNT_IN_CART",
     DECREASE_COUNT_IN_CART: "DECREASE_COUNT_IN_CART",
+    SET_VEG_ONLY_FILTER: "SET_VEG_ONLY_FILTER",
+    REMOVE_VEG_ONLY_FILTER: "REMOVE_VEG_ONLY_FILTER",
   };
 
   // State
@@ -17,6 +19,7 @@ import { cartEmpty } from "./models/imageConstants.js";
     activeMenu: 0,
     activeMenuItems: [],
     cart: [],
+    vegOnly: false,
   };
 
   // Reducer
@@ -43,7 +46,17 @@ import { cartEmpty } from "./models/imageConstants.js";
         } else {
           state.cart[payload].qty = state.cart[payload].qty - 1;
         }
-
+        return state;
+      case actions.SET_VEG_ONLY_FILTER:
+        state.vegOnly = payload;
+        const updatedMenuItems = state.activeMenuItems.filter(
+          (item) => item.isVeg !== false
+        );
+        state.activeMenuItems = updatedMenuItems;
+        return state;
+      case actions.REMOVE_VEG_ONLY_FILTER:
+        state.vegOnly = payload.value;
+        state.activeMenuItems = payload.items;
         return state;
       default:
         return state;
@@ -59,6 +72,23 @@ import { cartEmpty } from "./models/imageConstants.js";
       }
     }
     return 0;
+  }
+
+  //   @description    toggle veg only filter
+  function toggleVegOnlyFilter(e) {
+    let updatedState;
+    if (state.vegOnly === true) {
+      updatedState = changeState(state, actions.REMOVE_VEG_ONLY_FILTER, {
+        value: false,
+        items: getDishByMenu(menuList[state.activeMenu]),
+      });
+    } else {
+      updatedState = changeState(state, actions.SET_VEG_ONLY_FILTER, true);
+    }
+
+    state = updatedState;
+
+    render();
   }
 
   //@description    Updates the active menu index when menu is changed.
@@ -358,6 +388,14 @@ import { cartEmpty } from "./models/imageConstants.js";
   function renderEmptyCart() {
     const cartElement = document.querySelector(".cart");
 
+    const len = cartElement.childNodes.length;
+    const lastChildElement =
+      cartElement.childNodes[len - 1] &&
+      cartElement.childNodes[len - 1].classList &&
+      cartElement.childNodes[len - 1].classList[0];
+    if (lastChildElement === "cart__empty__container") {
+      cartElement.removeChild(cartElement.childNodes[len - 1]);
+    }
     if (state.cart.length === 0) {
       const emptyCartElement = document.createElement("div");
       emptyCartElement.setAttribute("class", "cart__empty__container");
@@ -367,15 +405,6 @@ import { cartEmpty } from "./models/imageConstants.js";
         `;
 
       cartElement.appendChild(emptyCartElement);
-    } else {
-      const len = cartElement.childNodes.length;
-      const lastChildElement =
-        cartElement.childNodes[len - 1] &&
-        cartElement.childNodes[len - 1].classList &&
-        cartElement.childNodes[len - 1].classList[0];
-      if (lastChildElement === "cart__empty__container") {
-        cartElement.removeChild(cartElement.childNodes[len - 1]);
-      }
     }
   }
 
@@ -421,6 +450,9 @@ import { cartEmpty } from "./models/imageConstants.js";
     cartList.addEventListener("click", increaseCountFromCart);
     cartList.addEventListener("click", decreaseCountFromCart);
     state.activeMenuItems = getDishByMenu(menuList[0]);
+
+    const vegOnlyFilter = document.getElementById("veg-only");
+    vegOnlyFilter.addEventListener("click", toggleVegOnlyFilter);
 
     render();
   }
