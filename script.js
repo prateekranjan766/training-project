@@ -1,5 +1,6 @@
 import menuList from "./models/menuModel.js";
 import getDishByMenu from "./models/dishModel.js";
+import { cartEmpty } from "./models/imageConstants.js";
 
 // IIFE
 (function app() {
@@ -7,26 +8,15 @@ import getDishByMenu from "./models/dishModel.js";
   const actions = {
     CHANGE_ACTIVE_MENU: "CHANGE_ACTIVE_MENU",
     ADD_TO_CART: "ADD_TO_CART",
+    INCREASE_COUNT_IN_CART: "INCREASE_COUNT_IN_CART",
+    DECREASE_COUNT_IN_CART: "DECREASE_COUNT_IN_CART",
   };
 
   // State
   let state = {
     activeMenu: 0,
     activeMenuItems: [],
-    cart: [
-      {
-        isVeg: false,
-        name: "Premium Butter Chicken Roti Thali",
-        price: 289,
-        qty: 25,
-      },
-      {
-        isVeg: true,
-        name: "Veg Platter",
-        price: 699,
-        qty: 1,
-      },
-    ],
+    cart: [],
   };
 
   // Reducer
@@ -40,6 +30,20 @@ import getDishByMenu from "./models/dishModel.js";
         const { cart } = state;
         const updatedCart = [...cart, payload];
         state.cart = updatedCart;
+        return state;
+      case actions.INCREASE_COUNT_IN_CART:
+        state.cart[payload].qty = state.cart[payload].qty + 1;
+        return state;
+      case actions.DECREASE_COUNT_IN_CART:
+        if (state.cart[payload].qty === 1) {
+          const updatedCart = state.cart.filter(
+            (item, index) => index !== payload
+          );
+          state.cart = updatedCart;
+        } else {
+          state.cart[payload].qty = state.cart[payload].qty - 1;
+        }
+
         return state;
       default:
         return state;
@@ -95,17 +99,62 @@ import getDishByMenu from "./models/dishModel.js";
     }
   }
 
-  //@description    All initialization and event listeners are added here.
-  function init() {
-    const sidebarList = document.querySelector(".sidebar__list");
-    sidebarList.addEventListener("click", updateActiveIndex);
+  //@description Increase the count in cart
+  function increaseCount(e) {
+    let btn = e.target;
+    if (btn.classList[0] === "content__list__items__btn") {
+      btn = btn.childNodes[0];
+    }
+    if (btn.classList[1] === "fa-plus") {
+      const target =
+        btn.parentElement.parentElement.parentElement.parentElement;
+      const contentList = document.querySelector(".content__list");
+      const idx = getIndex(target, contentList);
+      const { name } = state.activeMenuItems[idx];
 
-    const content__list = document.querySelector(".content__list");
-    content__list.addEventListener("click", addToCart);
-    state.activeMenuItems = getDishByMenu(menuList[0]);
+      for (let index = 0; index < state.cart.length; index++) {
+        if (state.cart[index].name === name) {
+          const updatedState = changeState(
+            state,
+            actions.INCREASE_COUNT_IN_CART,
+            index
+          );
+          state = updatedState;
 
-    render();
-    // this.getListItems(activeMenuIndex);
+          render();
+          return;
+        }
+      }
+    }
+  }
+
+  //@description Decrease the count in cart
+  function decreaseCount(e) {
+    let btn = e.target;
+    if (btn.classList[0] === "content__list__items__btn") {
+      btn = btn.childNodes[0];
+    }
+    if (btn.classList[1] === "fa-minus") {
+      const target =
+        btn.parentElement.parentElement.parentElement.parentElement;
+      const contentList = document.querySelector(".content__list");
+      const idx = getIndex(target, contentList);
+      const { name } = state.activeMenuItems[idx];
+
+      for (let index = 0; index < state.cart.length; index++) {
+        if (state.cart[index].name === name) {
+          const updatedState = changeState(
+            state,
+            actions.DECREASE_COUNT_IN_CART,
+            index
+          );
+          state = updatedState;
+
+          render();
+          return;
+        }
+      }
+    }
   }
 
   //@description    Clears the DOM (the parts which are rendered dynamically)
@@ -116,6 +165,12 @@ import getDishByMenu from "./models/dishModel.js";
     sidebarList.innerHTML = "";
     const cartList = document.querySelector(".cart__list");
     cartList.innerHTML = "";
+    const cartCountHeading = document.querySelector(".cart__heading--small");
+    cartCountHeading.innerHTML = "";
+    const cartSummary = document.querySelector(".cart__summary");
+    cartSummary.innerHTML = "";
+    const cartBtn = document.querySelector(".cart__btn");
+    cartBtn.style.display = "none";
   }
 
   //@description    renders the menu items in the sidebar
@@ -133,15 +188,16 @@ import getDishByMenu from "./models/dishModel.js";
 
   //@description    renders the dishes in the content section
   function renderMenuItems(item) {
+    let qty;
     for (let i = 0; i < state.cart.length; i++) {
       if (item.name === state.cart[i].name) {
-        item.qty = state.cart[i].qty;
+        qty = state.cart[i].qty;
         break;
       }
     }
     const contentList = document.querySelector(".content__list");
 
-    const { isVeg, name, price, description, image, qty } = item;
+    const { isVeg, name, price, description, image } = item;
 
     let contentListItem = document.createElement("li");
     contentListItem.setAttribute("class", "content__list__item");
@@ -216,7 +272,7 @@ import getDishByMenu from "./models/dishModel.js";
             </button>
         </div>
 
-        <p class="cart__list__items__price">&nbsp; &#x20B9; ${price}</p>
+        <p class="cart__list__items__price">&nbsp; &#x20B9; ${price * qty}</p>
       `;
 
     cartList.appendChild(cartItem);
@@ -224,13 +280,73 @@ import getDishByMenu from "./models/dishModel.js";
 
   //@description    renders the count of the cart
   function renderCartCount() {
-    const contentHeading = document.querySelector(".content__heading");
-    contentHeading.innerHTML = `
-      <h1 class="content__heading--big">${menuList[state.activeMenu]}</h1>
-      <p class="content__heading--small">${
-        state.activeMenuItems.length
-      } ITEMS</p>
-      `;
+    const cartCountHeading = document.querySelector(".cart__heading--small");
+
+    let totalItemsInCart = 0;
+    for (let i = 0; i < state.cart.length; i++) {
+      totalItemsInCart += state.cart[i].qty;
+    }
+
+    if (state.cart.length >= 1) {
+      cartCountHeading.innerHTML = `
+            ${totalItemsInCart} Items
+          `;
+    }
+  }
+
+  //@description    renders the summary of the cart
+  function renderCartSummary() {
+    const cartSummary = document.querySelector(".cart__summary");
+
+    if (state.cart.length >= 1) {
+      let totalCost = 0;
+      for (let i = 0; i < state.cart.length; i++) {
+        totalCost += state.cart[i].price * state.cart[i].qty;
+      }
+      cartSummary.innerHTML = `
+            <div class="cart__summary__heading">
+              <p class="cart__summary__heading--primary">Subtotal</p>
+              <p class="cart__summary__heading--secondary">
+                Extra charges may apply
+              </p>
+            </div>
+            <p class="cart__summary__price">&#x20B9; ${totalCost}</p>
+          `;
+    }
+  }
+
+  //@description    renders the checkout of the cart
+  function renderCheckoutButton() {
+    const btn = document.querySelector(".cart__btn");
+
+    if (state.cart.length >= 1) {
+      btn.style.display = "block";
+    }
+  }
+
+  //@description    renders when the cart is empty
+  function renderEmptyCart() {
+    const cartElement = document.querySelector(".cart");
+
+    if (state.cart.length === 0) {
+      const emptyCartElement = document.createElement("div");
+      emptyCartElement.setAttribute("class", "cart__empty__container");
+      emptyCartElement.innerHTML = `
+            <img src=${cartEmpty} alt="empty cart" class="cart__img"/>
+            <p class="cart__empty__text">Good food is always cooking! Go ahead, order some yummy items from the menu.</p>
+        `;
+
+      cartElement.appendChild(emptyCartElement);
+    } else {
+      const len = cartElement.childNodes.length;
+      const lastChildElement =
+        cartElement.childNodes[len - 1] &&
+        cartElement.childNodes[len - 1].classList &&
+        cartElement.childNodes[len - 1].classList[0];
+      if (lastChildElement === "cart__empty__container") {
+        cartElement.removeChild(cartElement.childNodes[len - 1]);
+      }
+    }
   }
 
   //@description    renders the dynamically rendered elements in the DOM
@@ -252,11 +368,28 @@ import getDishByMenu from "./models/dishModel.js";
     for (let i = 0; i < state.cart.length; i++) {
       renderCartItems(state.cart[i]);
     }
+    renderCartSummary();
+    renderCheckoutButton();
+    renderEmptyCart();
   }
 
   // function onUnmount() {
   //   // clean up code
   // }
+  //@description    All initialization and event listeners are added here.
+  function init() {
+    const sidebarList = document.querySelector(".sidebar__list");
+    sidebarList.addEventListener("click", updateActiveIndex);
+
+    const content__list = document.querySelector(".content__list");
+    content__list.addEventListener("click", addToCart);
+    content__list.addEventListener("click", increaseCount);
+    content__list.addEventListener("click", decreaseCount);
+    state.activeMenuItems = getDishByMenu(menuList[0]);
+
+    render();
+    // this.getListItems(activeMenuIndex);
+  }
 
   window.onload = function () {
     init();
