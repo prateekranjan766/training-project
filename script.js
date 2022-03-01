@@ -153,52 +153,6 @@ import { cartEmpty } from "./models/imageConstants.js";
     }
   }
 
-  //@description Increase the count in cart
-  //   function increaseCount(btn, list) {
-  //     const target = btn.parentElement.parentElement.parentElement.parentElement;
-  //     const idx = getIndex(target, list);
-  //     let name,
-  //       index = 0;
-  //     if (target.classList[0] === "cart__list") {
-  //       index = idx;
-  //     } else {
-  //       for (index = 0; index < state.cart.length; index++) {
-  //         if (state.cart[index].name === name) {
-  //           const updatedState = changeState(
-  //             state,
-  //             actions.INCREASE_COUNT_IN_CART,
-  //             index
-  //           );
-  //           state = updatedState;
-
-  //           render();
-  //           return;
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   //@description    Decrease the count in cart
-  //   function decreaseCount(btn, list) {
-  //     const target = btn.parentElement.parentElement.parentElement.parentElement;
-  //     const idx = getIndex(target, list);
-  //     const { name } = state.activeMenuItems[idx];
-
-  //     for (let index = 0; index < state.cart.length; index++) {
-  //       if (state.cart[index].name === name) {
-  //         const updatedState = changeState(
-  //           state,
-  //           actions.DECREASE_COUNT_IN_CART,
-  //           index
-  //         );
-  //         state = updatedState;
-
-  //         render();
-  //         return;
-  //       }
-  //     }
-  //   }
-
   //@description    Decrease the count in cart from content
   function decreaseCountFromContent(e) {
     let btn = e.target;
@@ -331,6 +285,13 @@ import { cartEmpty } from "./models/imageConstants.js";
     }
   }
 
+  //@description    Clears the cart
+  async function emptyCart(e) {
+    const updatedState = changeState(state, actions.EMPTY_CART, []);
+    state = updatedState;
+    render();
+  }
+
   //@description    Clears the DOM (the parts which are rendered dynamically)
   function clearList() {
     const contentList = document.querySelector(".content__list");
@@ -343,8 +304,10 @@ import { cartEmpty } from "./models/imageConstants.js";
     cartCountHeading.innerHTML = "";
     const cartSummary = document.querySelector(".cart__summary");
     cartSummary.innerHTML = "";
-    const cartBtn = document.querySelector(".cart__btn");
-    cartBtn.style.display = "none";
+    const cartCheckoutBtn = document.querySelector(".cart__btn__checkout");
+    cartCheckoutBtn.style.display = "none";
+    const cartEmptyBtn = document.querySelector(".cart__btn--red");
+    cartEmptyBtn.style.display = "none";
   }
 
   //@description    renders the menu items in the sidebar
@@ -491,10 +454,12 @@ import { cartEmpty } from "./models/imageConstants.js";
 
   //@description    renders the checkout of the cart
   function renderCheckoutButton() {
-    const btn = document.querySelector(".cart__btn");
+    const checkoutBtn = document.querySelector(".cart__btn__checkout");
+    const removeBtn = document.querySelector(".cart__btn--red");
 
     if (state.cart.length >= 1) {
-      btn.style.display = "block";
+      checkoutBtn.style.display = "block";
+      removeBtn.style.display = "block";
     }
   }
 
@@ -571,8 +536,11 @@ import { cartEmpty } from "./models/imageConstants.js";
     const searchBar = document.querySelector(".restaurant__info__search");
     searchBar.addEventListener("input", handleSearch);
 
-    const checkoutBtn = document.querySelector(".cart__btn");
+    const checkoutBtn = document.querySelector(".cart__btn__checkout");
     checkoutBtn.addEventListener("click", handleCheckout);
+
+    const removeBtn = document.querySelector(".cart__btn--red");
+    removeBtn.addEventListener("click", emptyCart);
 
     render();
   }

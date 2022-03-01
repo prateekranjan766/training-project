@@ -8,6 +8,7 @@
   --grey-secondary: #bebdbd;
   --white-primary: #fff;
   --white-secondary: #f6f7f6;
+  --red-primary: #fc4f4f;
 }
 
 * {
@@ -478,6 +479,9 @@ main {
   background-color: var(--green-primary);
   text-transform: uppercase;
   cursor: pointer;
+}
+.cart__btn--red {
+  background-color: var(--red-primary);
 }
 .cart__btn:hover {
   box-shadow: 0.2rem 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
