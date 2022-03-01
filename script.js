@@ -12,6 +12,7 @@ import { cartEmpty } from "./models/imageConstants.js";
     DECREASE_COUNT_IN_CART: "DECREASE_COUNT_IN_CART",
     SET_VEG_ONLY_FILTER: "SET_VEG_ONLY_FILTER",
     REMOVE_VEG_ONLY_FILTER: "REMOVE_VEG_ONLY_FILTER",
+    SEARCH: "SEARCH",
   };
 
   // State
@@ -58,6 +59,12 @@ import { cartEmpty } from "./models/imageConstants.js";
         state.vegOnly = payload.value;
         state.activeMenuItems = payload.items;
         return state;
+      case actions.SEARCH:
+        const filteredItems = payload.list.filter((item) =>
+          item.name.toLowerCase().includes(payload.keyword)
+        );
+        state.activeMenuItems = filteredItems;
+        return state;
       default:
         return state;
     }
@@ -72,6 +79,19 @@ import { cartEmpty } from "./models/imageConstants.js";
       }
     }
     return 0;
+  }
+
+  //@description    filter the active list using searchbar
+  function handleSearch(e) {
+    const value = e.target.value.trim().toLowerCase();
+
+    const updatedState = changeState(state, actions.SEARCH, {
+      list: getDishByMenu(menuList[state.activeMenu]),
+      keyword: value,
+    });
+    state = updatedState;
+
+    render();
   }
 
   //   @description    toggle veg only filter
@@ -453,6 +473,9 @@ import { cartEmpty } from "./models/imageConstants.js";
 
     const vegOnlyFilter = document.getElementById("veg-only");
     vegOnlyFilter.addEventListener("click", toggleVegOnlyFilter);
+
+    const searchBar = document.querySelector(".restaurant__info__search");
+    searchBar.addEventListener("input", handleSearch);
 
     render();
   }
