@@ -8,6 +8,7 @@ import { cartEmpty } from "./models/imageConstants.js";
   const actions = {
     CHANGE_ACTIVE_MENU: "CHANGE_ACTIVE_MENU",
     ADD_TO_CART: "ADD_TO_CART",
+    EMPTY_CART: "EMPTY_CART",
     INCREASE_COUNT_IN_CART: "INCREASE_COUNT_IN_CART",
     DECREASE_COUNT_IN_CART: "DECREASE_COUNT_IN_CART",
     SET_VEG_ONLY_FILTER: "SET_VEG_ONLY_FILTER",
@@ -37,6 +38,9 @@ import { cartEmpty } from "./models/imageConstants.js";
         return state;
       case actions.INCREASE_COUNT_IN_CART:
         state.cart[payload].qty = state.cart[payload].qty + 1;
+        return state;
+      case actions.EMPTY_CART:
+        state.cart = payload;
         return state;
       case actions.DECREASE_COUNT_IN_CART:
         if (state.cart[payload].qty === 1) {
@@ -126,7 +130,7 @@ import { cartEmpty } from "./models/imageConstants.js";
     render();
   }
 
-  //@description Adds an item to the cart
+  //@description    Adds an item to the cart
   function addToCart(e) {
     const btn = e.target;
 
@@ -150,48 +154,50 @@ import { cartEmpty } from "./models/imageConstants.js";
   }
 
   //@description Increase the count in cart
-  function increaseCount(btn) {
-    const target = btn.parentElement.parentElement.parentElement.parentElement;
-    const contentList = document.querySelector(".content__list");
-    const idx = getIndex(target, contentList);
-    const { name } = state.activeMenuItems[idx];
+  //   function increaseCount(btn, list) {
+  //     const target = btn.parentElement.parentElement.parentElement.parentElement;
+  //     const idx = getIndex(target, list);
+  //     let name,
+  //       index = 0;
+  //     if (target.classList[0] === "cart__list") {
+  //       index = idx;
+  //     } else {
+  //       for (index = 0; index < state.cart.length; index++) {
+  //         if (state.cart[index].name === name) {
+  //           const updatedState = changeState(
+  //             state,
+  //             actions.INCREASE_COUNT_IN_CART,
+  //             index
+  //           );
+  //           state = updatedState;
 
-    for (let index = 0; index < state.cart.length; index++) {
-      if (state.cart[index].name === name) {
-        const updatedState = changeState(
-          state,
-          actions.INCREASE_COUNT_IN_CART,
-          index
-        );
-        state = updatedState;
+  //           render();
+  //           return;
+  //         }
+  //       }
+  //     }
+  //   }
 
-        render();
-        return;
-      }
-    }
-  }
+  //   //@description    Decrease the count in cart
+  //   function decreaseCount(btn, list) {
+  //     const target = btn.parentElement.parentElement.parentElement.parentElement;
+  //     const idx = getIndex(target, list);
+  //     const { name } = state.activeMenuItems[idx];
 
-  //@description    Decrease the count in cart
-  function decreaseCount(btn) {
-    const target = btn.parentElement.parentElement.parentElement.parentElement;
-    const contentList = document.querySelector(".content__list");
-    const idx = getIndex(target, contentList);
-    const { name } = state.activeMenuItems[idx];
+  //     for (let index = 0; index < state.cart.length; index++) {
+  //       if (state.cart[index].name === name) {
+  //         const updatedState = changeState(
+  //           state,
+  //           actions.DECREASE_COUNT_IN_CART,
+  //           index
+  //         );
+  //         state = updatedState;
 
-    for (let index = 0; index < state.cart.length; index++) {
-      if (state.cart[index].name === name) {
-        const updatedState = changeState(
-          state,
-          actions.DECREASE_COUNT_IN_CART,
-          index
-        );
-        state = updatedState;
-
-        render();
-        return;
-      }
-    }
-  }
+  //         render();
+  //         return;
+  //       }
+  //     }
+  //   }
 
   //@description    Decrease the count in cart from content
   function decreaseCountFromContent(e) {
@@ -200,7 +206,25 @@ import { cartEmpty } from "./models/imageConstants.js";
       btn = btn.childNodes[0];
     }
     if (btn.classList[1] === "fa-minus") {
-      decreaseCount(btn);
+      const target =
+        btn.parentElement.parentElement.parentElement.parentElement;
+      const list = document.querySelector(".content__list");
+      const idx = getIndex(target, list);
+      const { name } = state.activeMenuItems[idx];
+
+      for (let index = 0; index < state.cart.length; index++) {
+        if (state.cart[index].name === name) {
+          const updatedState = changeState(
+            state,
+            actions.DECREASE_COUNT_IN_CART,
+            index
+          );
+          state = updatedState;
+
+          render();
+          return;
+        }
+      }
     }
   }
 
@@ -211,29 +235,99 @@ import { cartEmpty } from "./models/imageConstants.js";
       btn = btn.childNodes[0];
     }
     if (btn.classList[1] === "fa-plus") {
-      increaseCount(btn);
+      const list = document.querySelector(".content__list");
+      const target =
+        btn.parentElement.parentElement.parentElement.parentElement;
+      const idx = getIndex(target, list);
+      const { name } = state.activeMenuItems[idx];
+
+      for (let index = 0; index < state.cart.length; index++) {
+        if (state.cart[index].name === name) {
+          const updatedState = changeState(
+            state,
+            actions.INCREASE_COUNT_IN_CART,
+            index
+          );
+          state = updatedState;
+
+          render();
+          return;
+        }
+      }
     }
   }
 
   //@description    Decrease the count in cart from cart
   function decreaseCountFromCart(e) {
     let btn = e.target;
-    if (btn.classList[0] === "cart__list__items__btn") {
-      btn = btn.childNodes[0];
+    btn = btn.classList[0] === "cart__list__items__btn" ? btn.children[0] : btn;
+
+    if (btn && btn.classList && btn.classList["1"] === "fa-minus") {
+      decreaseCount();
+
+      render();
     }
-    if (btn.classList[1] === "fa-minus") {
-      decreaseCount(btn);
+
+    function decreaseCount() {
+      const target = btn.parentElement.parentElement.parentElement;
+      const list = document.querySelector(".cart__list");
+      const index = getIndex(target, list);
+      const updatedState = changeState(
+        state,
+        actions.DECREASE_COUNT_IN_CART,
+        index
+      );
+      state = updatedState;
     }
   }
 
   //@description    Increase the count in cart from cart
   function increaseCountFromCart(e) {
     let btn = e.target;
-    if (btn.classList[0] === "cart__list__items__btn") {
-      btn = btn.childNodes[0];
+    btn = btn.classList[0] === "cart__list__items__btn" ? btn.children[0] : btn;
+
+    if (btn && btn.classList && btn.classList["1"] === "fa-plus") {
+      increaseCount();
+
+      render();
     }
-    if (btn.classList[1] === "fa-plus") {
-      increaseCount(btn);
+
+    function increaseCount() {
+      const target = btn.parentElement.parentElement.parentElement;
+      const list = document.querySelector(".cart__list");
+      const index = getIndex(target, list);
+      const updatedState = changeState(
+        state,
+        actions.INCREASE_COUNT_IN_CART,
+        index
+      );
+      state = updatedState;
+    }
+  }
+
+  function checkoutFakeAPI() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const error = false;
+
+        if (!error) {
+          resolve(state.cart);
+        } else {
+          reject("Error: Somthing went wrong!!!");
+        }
+      }, 2000);
+    });
+  }
+
+  //@description    Checkout handler
+  async function handleCheckout(e) {
+    try {
+      const items = await checkoutFakeAPI();
+
+      localStorage.setItem("cart", JSON.stringify(items));
+      alert("Success");
+    } catch (err) {
+      console.log("Error: " + err);
     }
   }
 
@@ -476,6 +570,9 @@ import { cartEmpty } from "./models/imageConstants.js";
 
     const searchBar = document.querySelector(".restaurant__info__search");
     searchBar.addEventListener("input", handleSearch);
+
+    const checkoutBtn = document.querySelector(".cart__btn");
+    checkoutBtn.addEventListener("click", handleCheckout);
 
     render();
   }
