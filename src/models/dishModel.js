@@ -222,6 +222,6 @@ const menuDishItems = {
   ],
 };
 
-export default function getDishByMenu(menu) {
+export function getDishByMenu(menu) {
   return menuDishItems[menu];
 }

@@ -1,13 +1,39 @@
 import "./contentSection.styles.css";
 import menuList from "../../models/menuModel";
 import Sidebar from "../sidebar";
+import Content from "../content";
+import Cart from "../cart";
 import { useState } from "react";
+import { getDishByMenu } from "../../models/dishModel";
 
 export const ContentSection = () => {
   const [activeMenuIndex, setActiveMenuIndex] = useState(0);
+  const [activeMenuItems, setActiveMenuItems] = useState(
+    getDishByMenu(menuList[activeMenuIndex])
+  );
+  const [cartItems, setCartItems] = useState([]);
 
   const onSidebarClick = (index) => {
     setActiveMenuIndex(index);
+    let updatedMenuItems = getDishByMenu(menuList[index]);
+    for (let i = 0; i < updatedMenuItems.length; i++) {
+      for (let j = 0; j < cartItems.length; j++) {
+        if (updatedMenuItems[i].name === cartItems[j].name) {
+          updatedMenuItems[i].qty = cartItems[j].qty;
+          break;
+        }
+      }
+    }
+    setActiveMenuItems(updatedMenuItems);
+  };
+
+  const onAdd = (index) => {
+    const { isVeg, name, price } = activeMenuItems[index];
+    let updatedMenuItems = activeMenuItems;
+    updatedMenuItems[index].qty = 1;
+
+    setActiveMenuItems(updatedMenuItems);
+    setCartItems([...cartItems, { isVeg, name, price, qty: 1 }]);
   };
 
   return (
@@ -18,26 +44,13 @@ export const ContentSection = () => {
         onClick={onSidebarClick}
       />
 
-      <div className="content">
-        <div className="content__heading"></div>
-        <ul className="content__list"></ul>
-      </div>
+      <Content
+        activeMenuItems={activeMenuItems}
+        onAdd={onAdd}
+        menuName={menuList[activeMenuIndex]}
+      />
 
-      <div className="cart">
-        <div className="cart__heading">
-          <h1 className="cart__heading--big">Cart</h1>
-          <p className="cart__heading--small"></p>
-        </div>
-        <ul className="cart__list"></ul>
-        <div className="cart__summary"></div>
-
-        <button className="cart__btn cart__btn--red">
-          Empty Cart &nbsp;<i className="fa fa-trash" aria-hidden="true"></i>
-        </button>
-        <button className="cart__btn cart__btn__checkout">
-          Checkout &#8594;
-        </button>
-      </div>
+      <Cart cartItems={cartItems} />
     </section>
   );
 };
