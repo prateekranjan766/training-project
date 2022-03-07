@@ -1,3 +1,4 @@
+import "./contentSection.styles.css";
 export const ContentSection = () => {
   return (
     <section class="content-section">

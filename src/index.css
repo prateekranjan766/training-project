@@ -1,0 +1,28 @@
+:root {
+  --orange-primary: #ec8639;
+  --black-primary: #3e4151;
+  --black-secondary: #262424;
+  --black-tertiary: #000;
+  --green-primary: #74b055;
+  --grey-primary: #90939b;
+  --grey-secondary: #bebdbd;
+  --white-primary: #fff;
+  --white-secondary: #f6f7f6;
+  --red-primary: #fc4f4f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Lato", sans-serif;
+  font-size: 62.5%;
+}
+
+main {
+  min-height: 80vh;
+  /* z-index: -1; */
+}

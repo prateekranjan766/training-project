@@ -1,5 +1,7 @@
 import restaurantImage from "./rest-img.jpeg";
 
+import "./restaurantSection.styles.css";
+
 export const RestaurantSection = () => {
   return (
     <section className="restaurant__section">

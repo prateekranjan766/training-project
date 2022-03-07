@@ -1,3 +1,5 @@
+import "./urlLocation.styles.css";
+
 export const UrlLocation = () => {
   return (
     <section class="url__location">

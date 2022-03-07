@@ -1,3 +1,5 @@
+import "./footer.styles.css";
+
 import appStoreImage from "./app-store-img.png";
 import playStoreImage from "./play-store-img.png";
 import footerLogo from "./footer-logo.png";

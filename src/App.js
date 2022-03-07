@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import Header from "./components/header";
 import UrlLocation from "./components/urlLocation";
 import RestaurantSection from "./components/restaurantSection";
