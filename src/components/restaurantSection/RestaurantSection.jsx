@@ -45,7 +45,7 @@ export const RestaurantSection = () => {
               placeholder="Search for dishes..."
             />
             <label
-              for="restaurant__info__search"
+              htmlFor="restaurant__info__search"
               className="restaurant__info__search-label"
             >
               <span className="restaurant__info__input-icon">
@@ -54,7 +54,7 @@ export const RestaurantSection = () => {
             </label>
           </div>
 
-          <label for="veg-only">
+          <label htmlFor="veg-only">
             <div className="restaurant__info__checkbox">
               <input type="checkbox" id="veg-only" />
               &#160; Veg Only

@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --orange-primary: #ec8639;
   --black-primary: #3e4151;
   --black-secondary: #262424;
@@ -24,11 +24,11 @@ html {
 
 main {
   min-height: 80vh;
-  /* z-index: -1; */
-}
+} 
+*/
 
 /* <-- Header or Navbar --> */
-.header {
+/* .header {
   font-size: 1.6rem;
   height: 8rem;
   padding: 0 15%;
@@ -82,17 +82,17 @@ main {
 }
 .header__navigation__link:hover {
   color: var(--orange-primary);
-}
+} */
 /* <-- Header Ends --> */
 
 /* <-- Sections --> */
-.url__location {
+/* .url__location {
   padding: 1rem 15%;
   color: var(--grey-primary);
   background-color: var(--white-secondary);
   z-index: -1;
-}
-
+} */
+/* 
 .restaurant__section {
   background-color: var(--black-secondary);
   display: flex;
@@ -231,12 +231,12 @@ main {
 }
 .restaurant__info__favourite:hover {
   color: salmon;
-}
+} */
 
 /* Restaurant Info section ends */
 
 /* Content Section starts */
-.content-section {
+/* .content-section {
   display: flex;
   padding: 5rem 15%;
   position: relative;
@@ -322,7 +322,6 @@ main {
   color: var(--grey-primary);
 }
 .content__list__item__img-container {
-  /* padding: 3rem 0 3rem 5rem; */
   padding-left: 2rem;
   display: flex;
   justify-content: flex-start;
@@ -390,7 +389,6 @@ main {
   z-index: 1;
 }
 
-/* Cart */
 .cart {
   width: 26%;
 }
@@ -496,8 +494,8 @@ main {
   color: var(--grey-primary);
   text-align: left;
   padding: 2rem 0;
-}
-
+} */
+/* 
 .footer {
   background-color: var(--black-tertiary);
   padding: 10rem 15% 5rem;
@@ -559,4 +557,4 @@ main {
 }
 .social-media__icons:hover {
   transform: scale(1.2);
-}
+} */
