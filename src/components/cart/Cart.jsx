@@ -1,5 +1,6 @@
 import cartEmpty from "./cart-empty.png";
-export const Cart = ({ cartItems }) => {
+
+export const Cart = ({ cartItems, onPlus, onMinus }) => {
   return cartItems.length === 0 ? (
     <div className="cart">
       <div className="cart__empty__container">
@@ -30,11 +31,17 @@ export const Cart = ({ cartItems }) => {
             )}
             <p className="cart__list__items__heading">{item.name}</p>
             <div className="cart__list__items__buttons">
-              <button className="cart__list__items__btn">
+              <button
+                className="cart__list__items__btn"
+                onClick={() => onMinus(index)}
+              >
                 <i className="fa-solid fa-minus"></i>
               </button>
               <button className="cart__list__items__value">{item.qty}</button>
-              <button className="cart__list__items__btn">
+              <button
+                className="cart__list__items__btn"
+                onClick={() => onPlus(index)}
+              >
                 <i className="fa-solid fa-plus"></i>
               </button>
             </div>

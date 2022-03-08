@@ -2,7 +2,8 @@ export const Content = ({
   activeMenuItems,
   onAdd,
   menuName,
-  onPlusFromContent,
+  onPlus,
+  onMinus,
 }) => {
   return (
     <div className="content">
@@ -37,13 +38,19 @@ export const Content = ({
               />
               {item.qty ? (
                 <div className="content__list__items__buttons">
-                  <button className="content__list__items__btn">
+                  <button
+                    className="content__list__items__btn"
+                    onClick={() => onMinus(index)}
+                  >
                     <i className="fa-solid fa-minus"></i>
                   </button>
                   <button className="content__list__items__value">
                     {item.qty}
                   </button>
-                  <button className="content__list__items__btn">
+                  <button
+                    className="content__list__items__btn"
+                    onClick={() => onPlus(index)}
+                  >
                     <i className="fa-solid fa-plus"></i>
                   </button>
                 </div>

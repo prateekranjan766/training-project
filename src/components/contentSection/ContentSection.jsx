@@ -3,15 +3,17 @@ import menuList from "../../models/menuModel";
 import Sidebar from "../sidebar";
 import Content from "../content";
 import Cart from "../cart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getDishByMenu } from "../../models/dishModel";
 
 export const ContentSection = () => {
   const [activeMenuIndex, setActiveMenuIndex] = useState(0);
-  const [activeMenuItems, setActiveMenuItems] = useState(
-    getDishByMenu(menuList[activeMenuIndex])
-  );
+  const [activeMenuItems, setActiveMenuItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    setActiveMenuItems(getDishByMenu(menuList[activeMenuIndex]));
+  }, [activeMenuIndex, activeMenuItems]);
 
   const onSidebarClick = (index) => {
     setActiveMenuIndex(index);
@@ -36,6 +38,68 @@ export const ContentSection = () => {
     setCartItems([...cartItems, { isVeg, name, price, qty: 1 }]);
   };
 
+  const onPlusFromContent = (index) => {
+    let updatedMenuItems = [...activeMenuItems];
+    updatedMenuItems[index].qty++;
+
+    let updatedCartItems = [...cartItems];
+    const idx = updatedCartItems.findIndex(
+      (item) => item.name === updatedMenuItems[index].name
+    );
+    updatedCartItems[idx].qty++;
+
+    setCartItems(updatedCartItems);
+    setActiveMenuItems(updatedMenuItems);
+  };
+
+  const onMinusFromContent = (index) => {
+    let updatedMenuItems = [...activeMenuItems];
+    updatedMenuItems[index].qty--;
+
+    let updatedCartItems = [...cartItems];
+    const idx = updatedCartItems.findIndex(
+      (item) => item.name === updatedMenuItems[index].name
+    );
+    updatedCartItems[idx].qty--;
+    if (updatedCartItems[idx].qty === 0) {
+      updatedCartItems = updatedCartItems.filter((item, i) => i !== idx);
+    }
+
+    setCartItems(updatedCartItems);
+    setActiveMenuItems(updatedMenuItems);
+  };
+
+  const onPlusFromCart = (index) => {
+    let updatedCartItems = [...cartItems];
+    updatedCartItems[index].qty++;
+
+    let updatedMenuItems = [...activeMenuItems];
+    const idx = updatedMenuItems.findIndex(
+      (item) => item.name === updatedCartItems[index].name
+    );
+    updatedMenuItems[idx].qty++;
+
+    setCartItems(updatedCartItems);
+    setActiveMenuItems(updatedMenuItems);
+  };
+
+  const onMinusFromCart = (index) => {
+    let updatedCartItems = [...cartItems];
+    updatedCartItems[index].qty--;
+
+    let updatedMenuItems = [...activeMenuItems];
+    const idx = updatedMenuItems.findIndex(
+      (item) => item.name === updatedCartItems[index].name
+    );
+    updatedMenuItems[idx].qty--;
+    if (updatedCartItems[idx].qty === 0) {
+      updatedCartItems = updatedCartItems.filter((item, i) => i !== idx);
+    }
+
+    setCartItems(updatedCartItems);
+    setActiveMenuItems(updatedMenuItems);
+  };
+
   return (
     <section className="content-section">
       <Sidebar
@@ -48,9 +112,15 @@ export const ContentSection = () => {
         activeMenuItems={activeMenuItems}
         onAdd={onAdd}
         menuName={menuList[activeMenuIndex]}
+        onPlus={onPlusFromContent}
+        onMinus={onMinusFromContent}
       />
 
-      <Cart cartItems={cartItems} />
+      <Cart
+        cartItems={cartItems}
+        onPlus={onPlusFromCart}
+        onMinus={onMinusFromCart}
+      />
     </section>
   );
 };
