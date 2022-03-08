@@ -1,6 +1,11 @@
 import cartEmpty from "./cart-empty.png";
 
-export const Cart = ({ cartItems, onPlus, onMinus }) => {
+export const Cart = ({ cartItems, onPlus, onMinus, onEmpty }) => {
+  const totalCost = cartItems.reduce(
+    (accu, item) => accu + item.qty * item.price,
+    0
+  );
+
   return cartItems.length === 0 ? (
     <div className="cart">
       <div className="cart__empty__container">
@@ -52,9 +57,17 @@ export const Cart = ({ cartItems, onPlus, onMinus }) => {
           </li>
         ))}
       </ul>
-      <div className="cart__summary"></div>
+      <div className="cart__summary">
+        <div class="cart__summary__heading">
+          <p class="cart__summary__heading--primary">Subtotal</p>
+          <p class="cart__summary__heading--secondary">
+            Extra charges may apply
+          </p>
+        </div>
+        <p class="cart__summary__price">&#x20B9; {totalCost}</p>
+      </div>
 
-      <button className="cart__btn cart__btn--red">
+      <button className="cart__btn cart__btn--red" onClick={() => onEmpty()}>
         Empty Cart &nbsp;<i className="fa fa-trash" aria-hidden="true"></i>
       </button>
       <button className="cart__btn cart__btn__checkout">

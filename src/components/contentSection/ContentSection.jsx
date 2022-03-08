@@ -13,12 +13,13 @@ export const ContentSection = () => {
 
   useEffect(() => {
     setActiveMenuItems(getDishByMenu(menuList[activeMenuIndex]));
-  }, [activeMenuIndex, activeMenuItems]);
+  }, [activeMenuItems, cartItems]);
 
   const onSidebarClick = (index) => {
     setActiveMenuIndex(index);
     let updatedMenuItems = getDishByMenu(menuList[index]);
     for (let i = 0; i < updatedMenuItems.length; i++) {
+      updatedMenuItems[i].qty = 0;
       for (let j = 0; j < cartItems.length; j++) {
         if (updatedMenuItems[i].name === cartItems[j].name) {
           updatedMenuItems[i].qty = cartItems[j].qty;
@@ -77,9 +78,12 @@ export const ContentSection = () => {
     const idx = updatedMenuItems.findIndex(
       (item) => item.name === updatedCartItems[index].name
     );
-    updatedMenuItems[idx].qty++;
 
     setCartItems(updatedCartItems);
+
+    if (idx === -1) return;
+
+    updatedMenuItems[idx].qty++;
     setActiveMenuItems(updatedMenuItems);
   };
 
@@ -91,13 +95,26 @@ export const ContentSection = () => {
     const idx = updatedMenuItems.findIndex(
       (item) => item.name === updatedCartItems[index].name
     );
-    updatedMenuItems[idx].qty--;
-    if (updatedCartItems[idx].qty === 0) {
-      updatedCartItems = updatedCartItems.filter((item, i) => i !== idx);
+
+    if (updatedCartItems[index].qty === 0) {
+      updatedCartItems = updatedCartItems.filter((item, i) => i !== index);
     }
 
     setCartItems(updatedCartItems);
+
+    if (idx === -1) return;
+
+    updatedMenuItems[idx].qty--;
     setActiveMenuItems(updatedMenuItems);
+  };
+
+  const emptyCart = () => {
+    let updatedMenuItems = [...activeMenuItems];
+    updatedMenuItems = updatedMenuItems.map((item) => {
+      item.qty = 0;
+      return item;
+    });
+    setCartItems([]);
   };
 
   return (
@@ -120,6 +137,7 @@ export const ContentSection = () => {
         cartItems={cartItems}
         onPlus={onPlusFromCart}
         onMinus={onMinusFromCart}
+        onEmpty={emptyCart}
       />
     </section>
   );
