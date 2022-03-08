@@ -2,7 +2,7 @@ import restaurantImage from "./rest-img.jpeg";
 
 import "./restaurantSection.styles.css";
 
-export const RestaurantSection = () => {
+export const RestaurantSection = ({ onClick }) => {
   return (
     <section className="restaurant__section">
       <img
@@ -56,7 +56,7 @@ export const RestaurantSection = () => {
 
           <label htmlFor="veg-only">
             <div className="restaurant__info__checkbox">
-              <input type="checkbox" id="veg-only" />
+              <input type="checkbox" id="veg-only" onClick={() => onClick()} />
               &#160; Veg Only
             </div>
           </label>

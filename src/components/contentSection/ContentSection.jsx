@@ -6,14 +6,14 @@ import Cart from "../cart";
 import { useState, useEffect } from "react";
 import { getDishByMenu } from "../../models/dishModel";
 
-export const ContentSection = () => {
+export const ContentSection = ({ isVegOnly }) => {
   const [activeMenuIndex, setActiveMenuIndex] = useState(0);
   const [activeMenuItems, setActiveMenuItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    setActiveMenuItems(getDishByMenu(menuList[activeMenuIndex]));
-  }, [activeMenuItems, cartItems]);
+    onSidebarClick(activeMenuIndex);
+  }, [isVegOnly]);
 
   const onSidebarClick = (index) => {
     setActiveMenuIndex(index);
@@ -27,6 +27,13 @@ export const ContentSection = () => {
         }
       }
     }
+
+    if (isVegOnly) {
+      updatedMenuItems = updatedMenuItems.filter(
+        (item) => item.isVeg !== false
+      );
+    }
+
     setActiveMenuItems(updatedMenuItems);
   };
 
