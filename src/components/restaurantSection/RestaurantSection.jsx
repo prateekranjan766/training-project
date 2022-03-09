@@ -2,7 +2,7 @@ import restaurantImage from "./rest-img.jpeg";
 
 import "./restaurantSection.styles.css";
 
-export const RestaurantSection = ({ onClick }) => {
+export const RestaurantSection = ({ onClick, onChange }) => {
   return (
     <section className="restaurant__section">
       <img
@@ -43,6 +43,7 @@ export const RestaurantSection = ({ onClick }) => {
               id="restaurant__info__search"
               className="restaurant__info__search"
               placeholder="Search for dishes..."
+              onChange={(e) => onChange(e)}
             />
             <label
               htmlFor="restaurant__info__search"

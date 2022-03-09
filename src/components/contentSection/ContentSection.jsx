@@ -6,18 +6,28 @@ import Cart from "../cart";
 import { useState, useEffect } from "react";
 import { getDishByMenu } from "../../models/dishModel";
 
-export const ContentSection = ({ isVegOnly }) => {
-  const [activeMenuIndex, setActiveMenuIndex] = useState(0);
+export const ContentSection = ({
+  isVegOnly,
+  activeMenuIndex,
+  setActiveMenuIndex,
+  searchKeyword,
+}) => {
   const [activeMenuItems, setActiveMenuItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [checkoutMessage, setCheckoutMessage] = useState("");
+  const [cartEmptyMessage, setCartEmptyMessage] = useState("");
 
   useEffect(() => {
     onSidebarClick(activeMenuIndex);
-  }, [isVegOnly]);
+  }, [isVegOnly, searchKeyword, cartItems]);
 
   const onSidebarClick = (index) => {
-    setActiveMenuIndex(index);
     let updatedMenuItems = getDishByMenu(menuList[index]);
+    if (searchKeyword !== "") {
+      updatedMenuItems = updatedMenuItems.filter((item) =>
+        item.name.toLowerCase().includes(searchKeyword.trim().toLowerCase())
+      );
+    }
     for (let i = 0; i < updatedMenuItems.length; i++) {
       updatedMenuItems[i].qty = 0;
       for (let j = 0; j < cartItems.length; j++) {
@@ -34,6 +44,7 @@ export const ContentSection = ({ isVegOnly }) => {
       );
     }
 
+    setActiveMenuIndex(index);
     setActiveMenuItems(updatedMenuItems);
   };
 
@@ -122,6 +133,41 @@ export const ContentSection = ({ isVegOnly }) => {
       return item;
     });
     setCartItems([]);
+
+    setCartEmptyMessage("Cart items removed successfully...");
+    setTimeout(() => {
+      setCartEmptyMessage("");
+    }, 5000);
+  };
+
+  function checkoutFakeAPI() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const error = false;
+
+        if (!error) {
+          resolve(cartItems);
+        } else {
+          reject("Error: Somthing went wrong!!!");
+        }
+      }, 2000);
+    });
+  }
+
+  const onCheckout = async () => {
+    try {
+      const items = await checkoutFakeAPI();
+
+      localStorage.setItem("cart", JSON.stringify(items));
+      setCartItems([]);
+
+      setCheckoutMessage("Checkout Successful...");
+      setTimeout(() => {
+        setCheckoutMessage("");
+      }, 5000);
+    } catch (err) {
+      console.log("Error: " + err);
+    }
   };
 
   return (
@@ -138,6 +184,7 @@ export const ContentSection = ({ isVegOnly }) => {
         menuName={menuList[activeMenuIndex]}
         onPlus={onPlusFromContent}
         onMinus={onMinusFromContent}
+        searchKeyword={searchKeyword}
       />
 
       <Cart
@@ -145,6 +192,9 @@ export const ContentSection = ({ isVegOnly }) => {
         onPlus={onPlusFromCart}
         onMinus={onMinusFromCart}
         onEmpty={emptyCart}
+        onCheckout={onCheckout}
+        checkoutMessage={checkoutMessage}
+        cartEmptyMessage={cartEmptyMessage}
       />
     </section>
   );

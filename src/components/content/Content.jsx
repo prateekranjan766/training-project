@@ -4,11 +4,14 @@ export const Content = ({
   menuName,
   onPlus,
   onMinus,
+  searchKeyword,
 }) => {
   return (
     <div className="content">
       <div className="content__heading">
-        <h1 className="content__heading--big">{menuName}</h1>
+        <h1 className="content__heading--big">
+          {searchKeyword ? `Search Results in ${menuName}` : menuName}
+        </h1>
         <p className="content__heading--small">
           {activeMenuItems.length} ITEMS
         </p>
