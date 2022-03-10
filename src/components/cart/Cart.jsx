@@ -1,14 +1,15 @@
 import Message from "../message";
+
 import cartEmpty from "./cart-empty.png";
 
 export const Cart = ({
-  cartItems,
-  onPlus,
-  onMinus,
-  onEmpty,
-  onCheckout,
-  checkoutMessage,
   cartEmptyMessage,
+  cartItems,
+  checkoutMessage,
+  onCheckout,
+  onEmpty,
+  onMinus,
+  onPlus,
 }) => {
   const totalCost = cartItems.reduce(
     (accu, item) => accu + item.qty * item.price,

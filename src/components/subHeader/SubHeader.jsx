@@ -1,13 +1,13 @@
+import "./subHeader.styles.css";
+
 import restaurantImage from "./rest-img.jpeg";
 
-import "./restaurantSection.styles.css";
-
-export const RestaurantSection = ({ onClick, onChange }) => {
+export const SubHeader = ({ onClick, onChange }) => {
   return (
     <section className="restaurant__section">
       <img
         src={restaurantImage}
-        alt="restaurant-image"
+        alt="restaurant"
         className="restaurant__image"
       />
       <div className="restaurant__info">

@@ -1,11 +1,10 @@
-import Header from "./components/header";
-import UrlLocation from "./components/urlLocation";
-import RestaurantSection from "./components/restaurantSection";
+import BreadCrumb from "./components/breadCrumb";
 import ContentSection from "./components/contentSection";
 import Footer from "./components/footer";
-import menuList from "./models/menuModel";
+import Header from "./components/header";
+import SubHeader from "./components/subHeader";
 import { useState } from "react";
-import { getDishByMenu } from "./models/dishModel";
+
 function App() {
   const [activeMenuIndex, setActiveMenuIndex] = useState(0);
 
@@ -28,16 +27,16 @@ function App() {
     <>
       <Header />
       <main>
-        <UrlLocation />
-        <RestaurantSection onClick={vegOnlyFilter} onChange={onInputChange} />
+        <BreadCrumb />
+        <SubHeader onClick={vegOnlyFilter} onChange={onInputChange} />
         <ContentSection
           isVegOnly={vegOnly}
           activeMenuIndex={activeMenuIndex}
           setActiveMenuIndex={setIndex}
           searchKeyword={inputValue}
         />
-        <Footer />
       </main>
+      <Footer />
     </>
   );
 }

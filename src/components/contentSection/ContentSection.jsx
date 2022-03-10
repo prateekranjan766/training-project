@@ -1,16 +1,16 @@
 import "./contentSection.styles.css";
-import menuList from "../../models/menuModel";
-import Sidebar from "../sidebar";
-import Content from "../content";
 import Cart from "../cart";
-import { useState, useEffect } from "react";
+import Content from "../content";
+import Sidebar from "../sidebar";
+import menuList from "../../models/menuModel";
 import { getDishByMenu } from "../../models/dishModel";
+import { useState, useEffect } from "react";
 
 export const ContentSection = ({
-  isVegOnly,
   activeMenuIndex,
-  setActiveMenuIndex,
+  isVegOnly,
   searchKeyword,
+  setActiveMenuIndex,
 }) => {
   const [activeMenuItems, setActiveMenuItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -127,17 +127,10 @@ export const ContentSection = ({
   };
 
   const emptyCart = () => {
-    let updatedMenuItems = [...activeMenuItems];
-    updatedMenuItems = updatedMenuItems.map((item) => {
-      item.qty = 0;
-      return item;
-    });
     setCartItems([]);
 
     setCartEmptyMessage("Cart items removed successfully...");
-    setTimeout(() => {
-      setCartEmptyMessage("");
-    }, 5000);
+    setTimeout(() => setCartEmptyMessage(""), 2000);
   };
 
   function checkoutFakeAPI() {
@@ -173,28 +166,28 @@ export const ContentSection = ({
   return (
     <section className="content-section">
       <Sidebar
-        menuList={menuList}
         activeMenuIndex={activeMenuIndex}
+        menuList={menuList}
         onClick={onSidebarClick}
       />
 
       <Content
         activeMenuItems={activeMenuItems}
-        onAdd={onAdd}
         menuName={menuList[activeMenuIndex]}
-        onPlus={onPlusFromContent}
+        onAdd={onAdd}
         onMinus={onMinusFromContent}
+        onPlus={onPlusFromContent}
         searchKeyword={searchKeyword}
       />
 
       <Cart
-        cartItems={cartItems}
-        onPlus={onPlusFromCart}
-        onMinus={onMinusFromCart}
-        onEmpty={emptyCart}
-        onCheckout={onCheckout}
-        checkoutMessage={checkoutMessage}
         cartEmptyMessage={cartEmptyMessage}
+        cartItems={cartItems}
+        checkoutMessage={checkoutMessage}
+        onCheckout={onCheckout}
+        onEmpty={emptyCart}
+        onMinus={onMinusFromCart}
+        onPlus={onPlusFromCart}
       />
     </section>
   );

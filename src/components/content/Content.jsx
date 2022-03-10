@@ -1,9 +1,9 @@
 export const Content = ({
   activeMenuItems,
-  onAdd,
   menuName,
-  onPlus,
+  onAdd,
   onMinus,
+  onPlus,
   searchKeyword,
 }) => {
   return (
@@ -37,7 +37,7 @@ export const Content = ({
               <img
                 className="list__item__dish-image"
                 src={item.image}
-                alt="food-image"
+                alt="food"
               />
               {item.qty ? (
                 <div className="content__list__items__buttons">

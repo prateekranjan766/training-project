@@ -1,8 +1,8 @@
-import "./urlLocation.styles.css";
+import "./breadCrumb.styles.css";
 
-export const UrlLocation = () => {
+export const BreadCrumb = () => {
   return (
-    <section className="url__location">
+    <section className="breadCrumb">
       Home / Bangalore / BTM - Bangalore / <strong>Kitchens of Punjab</strong>
     </section>
   );
