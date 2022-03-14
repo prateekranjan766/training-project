@@ -1,4 +1,6 @@
 import "./contentSection.styles.css";
+
+import React from "react";
 import Cart from "../cart";
 import Content from "../content";
 import Sidebar from "../sidebar";
@@ -6,12 +8,18 @@ import menuList from "../../models/menuModel";
 import { getDishByMenu } from "../../models/dishModel";
 import { useState, useEffect } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveMenuIndex } from "../../actions/filterActions";
+
 export const ContentSection = ({
-  activeMenuIndex,
+  // activeMenuIndex,
   isVegOnly,
   searchKeyword,
-  setActiveMenuIndex,
+  // setActiveMenuIndex,
 }) => {
+  const dispatch = useDispatch();
+  const activeMenuIndex = useSelector((state) => state.activeMenuIndex);
+
   const [activeMenuItems, setActiveMenuItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [checkoutMessage, setCheckoutMessage] = useState("");
@@ -44,7 +52,7 @@ export const ContentSection = ({
       );
     }
 
-    setActiveMenuIndex(index);
+    dispatch(setActiveMenuIndex(index));
     setActiveMenuItems(updatedMenuItems);
   };
 

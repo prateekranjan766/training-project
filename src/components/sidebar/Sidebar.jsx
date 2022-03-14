@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Sidebar = ({ menuList, activeMenuIndex, onClick }) => {
   return (
     <div className="sidebar">

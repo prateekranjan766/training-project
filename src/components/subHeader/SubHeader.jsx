@@ -1,6 +1,7 @@
 import "./subHeader.styles.css";
 
 import restaurantImage from "./rest-img.jpeg";
+import React from "react";
 
 export const SubHeader = ({ onClick, onChange }) => {
   return (

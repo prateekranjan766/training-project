@@ -1,4 +1,5 @@
 import Message from "../message";
+import React from "react";
 
 import cartEmpty from "./cart-empty.png";
 
