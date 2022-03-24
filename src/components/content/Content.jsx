@@ -1,4 +1,5 @@
 import React from "react";
+import "./content.styles.css";
 
 export const Content = ({
   activeMenuItems,

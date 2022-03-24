@@ -1,9 +1,14 @@
 import "./subHeader.styles.css";
 
-import restaurantImage from "./rest-img.jpeg";
 import React from "react";
+import restaurantImage from "./rest-img.jpeg";
+import { useDispatch, useSelector } from "react-redux";
+import { vegOnlyFilter, inputValueFilter } from "../../actions/filterActions";
 
-export const SubHeader = ({ onClick, onChange }) => {
+export const SubHeader = () => {
+  const dispatch = useDispatch();
+  const vegOnly = useSelector((state) => state.vegOnly);
+
   return (
     <section className="restaurant__section">
       <img
@@ -44,7 +49,7 @@ export const SubHeader = ({ onClick, onChange }) => {
               id="restaurant__info__search"
               className="restaurant__info__search"
               placeholder="Search for dishes..."
-              onChange={(e) => onChange(e)}
+              onChange={(e) => dispatch(inputValueFilter(e.target.value))}
             />
             <label
               htmlFor="restaurant__info__search"
@@ -58,7 +63,11 @@ export const SubHeader = ({ onClick, onChange }) => {
 
           <label htmlFor="veg-only">
             <div className="restaurant__info__checkbox">
-              <input type="checkbox" id="veg-only" onClick={() => onClick()} />
+              <input
+                type="checkbox"
+                id="veg-only"
+                onClick={() => dispatch(vegOnlyFilter(!vegOnly))}
+              />
               &#160; Veg Only
             </div>
           </label>

@@ -10,24 +10,31 @@ import { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveMenuIndex } from "../../actions/filterActions";
+import {
+  setActiveMenuItems,
+  setQuantityByID,
+} from "../../actions/contentActions";
+import {
+  addToCart,
+  clearCart,
+  setCartItemQtyById,
+  removeFromCart,
+} from "../../actions/cartActions";
 
-export const ContentSection = ({
-  // activeMenuIndex,
-  isVegOnly,
-  searchKeyword,
-  // setActiveMenuIndex,
-}) => {
+export const ContentSection = () => {
   const dispatch = useDispatch();
   const activeMenuIndex = useSelector((state) => state.activeMenuIndex);
+  const searchKeyword = useSelector((state) => state.inputValue);
+  const isVegOnly = useSelector((state) => state.vegOnly);
+  const activeMenuItems = useSelector((state) => state.activeMenuItems);
+  const cart = useSelector((state) => state.cart);
+  const { cartItems, loading: loadingCart } = cart;
 
-  const [activeMenuItems, setActiveMenuItems] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
   const [checkoutMessage, setCheckoutMessage] = useState("");
-  const [cartEmptyMessage, setCartEmptyMessage] = useState("");
 
   useEffect(() => {
     onSidebarClick(activeMenuIndex);
-  }, [isVegOnly, searchKeyword, cartItems]);
+  }, [searchKeyword, isVegOnly]);
 
   const onSidebarClick = (index) => {
     let updatedMenuItems = getDishByMenu(menuList[index]);
@@ -39,7 +46,7 @@ export const ContentSection = ({
     for (let i = 0; i < updatedMenuItems.length; i++) {
       updatedMenuItems[i].qty = 0;
       for (let j = 0; j < cartItems.length; j++) {
-        if (updatedMenuItems[i].name === cartItems[j].name) {
+        if (updatedMenuItems[i].id === cartItems[j].id) {
           updatedMenuItems[i].qty = cartItems[j].qty;
           break;
         }
@@ -53,92 +60,52 @@ export const ContentSection = ({
     }
 
     dispatch(setActiveMenuIndex(index));
-    setActiveMenuItems(updatedMenuItems);
+    dispatch(setActiveMenuItems(updatedMenuItems));
   };
 
   const onAdd = (index) => {
-    const { isVeg, name, price } = activeMenuItems[index];
-    let updatedMenuItems = activeMenuItems;
-    updatedMenuItems[index].qty = 1;
+    const { isVeg, name, price, id } = activeMenuItems[index];
 
-    setActiveMenuItems(updatedMenuItems);
-    setCartItems([...cartItems, { isVeg, name, price, qty: 1 }]);
+    dispatch(setQuantityByID(id, 1));
+    dispatch(addToCart({ id, isVeg, name, price, qty: 1 }));
   };
 
   const onPlusFromContent = (index) => {
-    let updatedMenuItems = [...activeMenuItems];
-    updatedMenuItems[index].qty++;
+    const { id, qty } = activeMenuItems[index];
 
-    let updatedCartItems = [...cartItems];
-    const idx = updatedCartItems.findIndex(
-      (item) => item.name === updatedMenuItems[index].name
-    );
-    updatedCartItems[idx].qty++;
-
-    setCartItems(updatedCartItems);
-    setActiveMenuItems(updatedMenuItems);
+    dispatch(setQuantityByID(id, qty + 1));
+    dispatch(setCartItemQtyById(id, qty + 1));
   };
 
   const onMinusFromContent = (index) => {
-    let updatedMenuItems = [...activeMenuItems];
-    updatedMenuItems[index].qty--;
+    const { id, qty } = activeMenuItems[index];
 
-    let updatedCartItems = [...cartItems];
-    const idx = updatedCartItems.findIndex(
-      (item) => item.name === updatedMenuItems[index].name
-    );
-    updatedCartItems[idx].qty--;
-    if (updatedCartItems[idx].qty === 0) {
-      updatedCartItems = updatedCartItems.filter((item, i) => i !== idx);
-    }
-
-    setCartItems(updatedCartItems);
-    setActiveMenuItems(updatedMenuItems);
+    dispatch(setQuantityByID(id, qty - 1));
+    qty === 1
+      ? dispatch(removeFromCart(id))
+      : dispatch(setCartItemQtyById(id, qty - 1));
   };
 
   const onPlusFromCart = (index) => {
-    let updatedCartItems = [...cartItems];
-    updatedCartItems[index].qty++;
-
-    let updatedMenuItems = [...activeMenuItems];
-    const idx = updatedMenuItems.findIndex(
-      (item) => item.name === updatedCartItems[index].name
-    );
-
-    setCartItems(updatedCartItems);
-
-    if (idx === -1) return;
-
-    updatedMenuItems[idx].qty++;
-    setActiveMenuItems(updatedMenuItems);
+    let { id, qty } = cartItems[index];
+    dispatch(setQuantityByID(id, qty + 1));
+    dispatch(setCartItemQtyById(id, qty + 1));
   };
 
   const onMinusFromCart = (index) => {
-    let updatedCartItems = [...cartItems];
-    updatedCartItems[index].qty--;
-
-    let updatedMenuItems = [...activeMenuItems];
-    const idx = updatedMenuItems.findIndex(
-      (item) => item.name === updatedCartItems[index].name
-    );
-
-    if (updatedCartItems[index].qty === 0) {
-      updatedCartItems = updatedCartItems.filter((item, i) => i !== index);
-    }
-
-    setCartItems(updatedCartItems);
-
-    if (idx === -1) return;
-
-    updatedMenuItems[idx].qty--;
-    setActiveMenuItems(updatedMenuItems);
+    let { id, qty } = cartItems[index];
+    dispatch(setQuantityByID(id, qty - 1));
+    qty === 1
+      ? dispatch(removeFromCart(id))
+      : dispatch(setCartItemQtyById(id, qty - 1));
   };
 
   const emptyCart = () => {
-    setCartItems([]);
-
-    setCartEmptyMessage("Cart items removed successfully...");
-    setTimeout(() => setCartEmptyMessage(""), 2000);
+    for (let i = 0; i < cartItems.length; i++) {
+      const { id } = cartItems[i];
+      dispatch(setQuantityByID(id, 0));
+    }
+    dispatch(clearCart());
   };
 
   function checkoutFakeAPI() {
@@ -160,7 +127,7 @@ export const ContentSection = ({
       const items = await checkoutFakeAPI();
 
       localStorage.setItem("cart", JSON.stringify(items));
-      setCartItems([]);
+      // setCartItems([]);
 
       setCheckoutMessage("Checkout Successful...");
       setTimeout(() => {
@@ -189,7 +156,7 @@ export const ContentSection = ({
       />
 
       <Cart
-        cartEmptyMessage={cartEmptyMessage}
+        loading={loadingCart}
         cartItems={cartItems}
         checkoutMessage={checkoutMessage}
         onCheckout={onCheckout}

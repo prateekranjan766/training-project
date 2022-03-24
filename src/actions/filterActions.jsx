@@ -11,3 +11,19 @@ export const setActiveMenuIndex = (index) => (dispatch) => {
     console.log(error);
   }
 };
+
+export const vegOnlyFilter = (isVegOnly) => (dispatch) => {
+  try {
+    dispatch({ type: SET_VEG_ONLY, payload: isVegOnly });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const inputValueFilter = (value) => (dispatch) => {
+  try {
+    dispatch({ type: SET_INPUT_VALUE, payload: value });
+  } catch (error) {
+    console.log(error);
+  }
+};
