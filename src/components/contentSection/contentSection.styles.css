@@ -5,27 +5,3 @@
 
   box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
-.sidebar {
-  font-size: 1.4rem;
-  color: var(--black-primary);
-  min-width: 20.5%;
-  position: sticky;
-  top: 150px;
-}
-.sidebar__list {
-  list-style: none;
-  text-align: right;
-}
-.sidebar__list__item {
-  padding: 0.5rem 5rem 0.5rem 0;
-  cursor: pointer;
-  text-transform: capitalize;
-}
-.sidebar__list__item:hover {
-  color: var(--orange-primary);
-}
-.sidebar__list__item--active {
-  font-weight: bold;
-  color: var(--orange-primary);
-  border-right: 5px solid var(--orange-primary);
-}
