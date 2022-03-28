@@ -1,8 +1,9 @@
 import Message from "../message";
-import React from "react";
+import React, { useContext } from "react";
 
 import cartEmpty from "./cart-empty.png";
 import Spinner from "../spinner";
+import { ThemeContext } from "../../context/themeContext";
 import "./cart.styles.css";
 
 export const Cart = ({
@@ -18,6 +19,8 @@ export const Cart = ({
     (accu, item) => accu + item.qty * item.price,
     0
   );
+
+  const isLightTheme = useContext(ThemeContext);
 
   return (
     <div className="cart">
@@ -96,7 +99,11 @@ export const Cart = ({
           )}
 
           <button
-            className="cart__btn cart__btn__checkout"
+            className={`cart__btn cart__btn__checkout ${
+              isLightTheme
+                ? "cart__btn__checkout--light"
+                : "cart__btn__checkout--dark"
+            }`}
             onClick={() => onCheckout()}
           >
             Checkout &#8594;
