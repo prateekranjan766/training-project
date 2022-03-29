@@ -29,15 +29,16 @@ export const ContentSection = ({
         item.name.toLowerCase().includes(searchKeyword.trim().toLowerCase())
       );
     }
-    for (let i = 0; i < updatedMenuItems.length; i++) {
-      updatedMenuItems[i].qty = 0;
-      for (let j = 0; j < cartItems.length; j++) {
-        if (updatedMenuItems[i].name === cartItems[j].name) {
-          updatedMenuItems[i].qty = cartItems[j].qty;
-          break;
+    updatedMenuItems = updatedMenuItems.map((menuItem) => {
+      menuItem.qty = 0;
+      cartItems.forEach((cartItem) => {
+        if (cartItem.id === menuItem.id) {
+          menuItem.qty = cartItem.qty;
+          return;
         }
-      }
-    }
+      });
+      return menuItem;
+    });
 
     if (isVegOnly) {
       updatedMenuItems = updatedMenuItems.filter(
@@ -50,12 +51,12 @@ export const ContentSection = ({
   };
 
   const onAdd = (index) => {
-    const { isVeg, name, price } = activeMenuItems[index];
+    const { isVeg, name, price, id } = activeMenuItems[index];
     let updatedMenuItems = activeMenuItems;
     updatedMenuItems[index].qty = 1;
 
     setActiveMenuItems(updatedMenuItems);
-    setCartItems([...cartItems, { isVeg, name, price, qty: 1 }]);
+    setCartItems([...cartItems, { isVeg, name, price, qty: 1, id }]);
   };
 
   const onPlusFromContent = (index) => {
@@ -127,11 +128,12 @@ export const ContentSection = ({
     setActiveMenuItems(updatedMenuItems);
   };
 
-  const emptyCart = () => {
+  const emptyCart = async () => {
     setCartItems([]);
-
     setCartEmptyMessage("Cart items removed successfully...");
-    setTimeout(() => setCartEmptyMessage(""), 2000);
+
+    await delay(2000);
+    setCartEmptyMessage("");
   };
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -143,11 +145,11 @@ export const ContentSection = ({
   const onCheckout = async () => {
     try {
       const items = await checkoutFakeAPI();
-
       localStorage.setItem("cart", JSON.stringify(items));
-      setCartItems([]);
 
+      setCartItems([]);
       setCheckoutMessage("Checkout Successful...");
+
       await delay(5000);
       setCheckoutMessage("");
     } catch (err) {

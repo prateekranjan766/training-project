@@ -44,7 +44,7 @@ export const SubHeader = ({ onClick, onChange }) => {
               id="restaurant__info__search"
               className="restaurant__info__search"
               placeholder="Search for dishes..."
-              onChange={(e) => onChange(e)}
+              onChange={onChange}
             />
             <label
               htmlFor="restaurant__info__search"
@@ -58,7 +58,7 @@ export const SubHeader = ({ onClick, onChange }) => {
 
           <label htmlFor="veg-only">
             <div className="restaurant__info__checkbox">
-              <input type="checkbox" id="veg-only" onClick={() => onClick()} />
+              <input type="checkbox" id="veg-only" onClick={onClick} />
               &#160; Veg Only
             </div>
           </label>
