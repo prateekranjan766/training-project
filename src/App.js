@@ -3,7 +3,7 @@ import ContentSection from "./components/contentSection";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import SubHeader from "./components/subHeader";
-import { useState } from "react";
+import React, { useState } from "react";
 
 function App() {
   const [activeMenuIndex, setActiveMenuIndex] = useState(0);

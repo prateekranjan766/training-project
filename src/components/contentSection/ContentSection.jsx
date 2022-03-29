@@ -1,6 +1,7 @@
 import "./contentSection.styles.css";
 import Cart from "../cart";
 import Content from "../content";
+import React from "react";
 import Sidebar from "../sidebar";
 import menuList from "../../models/menuModel";
 import { getDishByMenu } from "../../models/dishModel";
@@ -133,19 +134,11 @@ export const ContentSection = ({
     setTimeout(() => setCartEmptyMessage(""), 2000);
   };
 
-  function checkoutFakeAPI() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const error = false;
-
-        if (!error) {
-          resolve(cartItems);
-        } else {
-          reject("Error: Somthing went wrong!!!");
-        }
-      }, 2000);
-    });
-  }
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const checkoutFakeAPI = async () => {
+    await delay(2000);
+    return cartItems;
+  };
 
   const onCheckout = async () => {
     try {
@@ -155,9 +148,8 @@ export const ContentSection = ({
       setCartItems([]);
 
       setCheckoutMessage("Checkout Successful...");
-      setTimeout(() => {
-        setCheckoutMessage("");
-      }, 5000);
+      await delay(5000);
+      setCheckoutMessage("");
     } catch (err) {
       console.log("Error: " + err);
     }

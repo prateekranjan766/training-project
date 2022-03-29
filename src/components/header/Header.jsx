@@ -1,6 +1,7 @@
 import logo from "./swiggy-logo.svg";
 
 import "./header.styles.css";
+import React from "react";
 
 export const Header = () => {
   return (
