@@ -105,25 +105,15 @@ const ContentSectionComponent = ({
   };
 
   const emptyCart = () => {
-    for (let i = 0; i < cartItems.length; i++) {
-      const { id } = cartItems[i];
-      setQuantityByID(id, 0);
-    }
+    cartItems.forEach((item) => setQuantityByID(item.id, 0));
     clearCart();
   };
 
-  function checkoutFakeAPI() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const error = false;
-        if (!error) {
-          resolve(cartItems);
-        } else {
-          reject("Error: Somthing went wrong!!!");
-        }
-      }, 1500);
-    });
-  }
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const checkoutFakeAPI = async () => {
+    await delay(2000);
+    return cartItems;
+  };
 
   const onCheckout = async () => {
     try {
@@ -132,9 +122,8 @@ const ContentSectionComponent = ({
 
       setCheckoutMessage("Checkout Successful...");
       emptyCart();
-      setTimeout(() => {
-        setCheckoutMessage("");
-      }, 5000);
+      delay(5000);
+      setCheckoutMessage("");
     } catch (err) {
       console.log("Error: " + err);
     }
