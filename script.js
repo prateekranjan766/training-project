@@ -243,21 +243,13 @@ import { cartEmpty } from "./models/imageConstants.js";
     }
   }
 
-  function checkoutFakeAPI() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const error = false;
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const checkoutFakeAPI = async () => {
+    await delay(2000);
+    return state.cart;
+  };
 
-        if (!error) {
-          resolve(state.cart);
-        } else {
-          reject("Error: Somthing went wrong!!!");
-        }
-      }, 2000);
-    });
-  }
-
-  async function handleCheckout(e) {
+  async function handleCheckout() {
     try {
       const items = await checkoutFakeAPI();
 
