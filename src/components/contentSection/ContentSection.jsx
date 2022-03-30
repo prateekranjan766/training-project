@@ -1,25 +1,16 @@
 import "./contentSection.styles.css";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Cart from "../cart";
 import Content from "../content";
 import Sidebar from "../sidebar";
 import menuList from "../../models/menuModel";
 import { getDishByMenu } from "../../models/dishModel";
-import { useState, useEffect } from "react";
-
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { setActiveMenuIndex } from "../../actions/filterActions";
-import {
-  setActiveMenuItems,
-  setQuantityByID,
-} from "../../actions/contentActions";
-import {
-  addToCart,
-  clearCart,
-  removeFromCart,
-  setCartItemQtyById,
-} from "../../actions/cartActions";
+import * as ContentActions from "../../actions/contentActions";
+import * as CartActions from "../../actions/cartActions";
 
 const ContentSectionComponent = ({
   activeMenuIndex,
@@ -166,31 +157,12 @@ const mapStateToProps = (state) => {
     cart: state.cart,
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setActiveMenuIndex: function (index) {
-      dispatch(setActiveMenuIndex(index));
-    },
-    setActiveMenuItems: function (updatedMenuItems) {
-      dispatch(setActiveMenuItems(updatedMenuItems));
-    },
-    setQuantityByID: function (id, qty) {
-      dispatch(setQuantityByID(id, qty));
-    },
-    addToCart: function (item) {
-      dispatch(addToCart(item));
-    },
-    setCartItemQtyById: function (id, qty) {
-      dispatch(setCartItemQtyById(id, qty));
-    },
-    removeFromCart: function (id) {
-      dispatch(removeFromCart(id));
-    },
-    clearCart: function () {
-      dispatch(clearCart());
-    },
-  };
-};
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    { ...CartActions, ...ContentActions, setActiveMenuIndex },
+    dispatch
+  );
 
 export const ContentSection = connect(
   mapStateToProps,
