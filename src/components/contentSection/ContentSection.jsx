@@ -122,7 +122,7 @@ const ContentSectionComponent = ({
 
       setCheckoutMessage("Checkout Successful...");
       emptyCart();
-      delay(5000);
+      await delay(5000);
       setCheckoutMessage("");
     } catch (err) {
       console.log("Error: " + err);
