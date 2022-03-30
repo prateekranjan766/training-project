@@ -1,10 +1,9 @@
-import BreadCrumb from "./components/breadCrumb";
-import ContentSection from "./components/contentSection";
-import Footer from "./components/footer";
-import Header from "./components/header";
 import React, { useState } from "react";
-import SubHeader from "./components/subHeader";
 import { ThemeContext } from "./context/themeContext";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import HomeScreen from "./components/homeScreen";
+import NotFound from "./components/notFound";
+import ThankYouScreen from "./components/thankYouScreen/ThankYouScreen";
 
 function App() {
   const [isLightTheme, setIsLightTheme] = useState(true);
@@ -14,17 +13,19 @@ function App() {
   };
 
   return (
-    <>
-      <Header changeTheme={changeTheme} />
-      <main>
-        <BreadCrumb />
-        <SubHeader />
-        <ThemeContext.Provider value={isLightTheme}>
-          <ContentSection />
-        </ThemeContext.Provider>
-      </main>
-      <Footer />
-    </>
+    <Router>
+      <ThemeContext.Provider value={isLightTheme}>
+        <Switch>
+          <Route exact path="/thank-you" component={ThankYouScreen} />
+          <Route
+            exact
+            path="/"
+            render={() => <HomeScreen changeTheme={changeTheme} />}
+          />
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </ThemeContext.Provider>
+    </Router>
   );
 }
 

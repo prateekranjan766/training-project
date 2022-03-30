@@ -1,25 +1,17 @@
 import "./contentSection.styles.css";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Cart from "../cart";
 import Content from "../content";
 import Sidebar from "../sidebar";
 import menuList from "../../models/menuModel";
 import { getDishByMenu } from "../../models/dishModel";
-import { useState, useEffect } from "react";
-
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { setActiveMenuIndex } from "../../actions/filterActions";
-import {
-  setActiveMenuItems,
-  setQuantityByID,
-} from "../../actions/contentActions";
-import {
-  addToCart,
-  clearCart,
-  removeFromCart,
-  setCartItemQtyById,
-} from "../../actions/cartActions";
+import * as ContentActions from "../../actions/contentActions";
+import * as CartActions from "../../actions/cartActions";
 
 const ContentSectionComponent = ({
   activeMenuIndex,
@@ -34,6 +26,7 @@ const ContentSectionComponent = ({
   setActiveMenuItems,
   setCartItemQtyById,
   setQuantityByID,
+  history,
 }) => {
   const { cartItems, loading: loadingCart } = cart;
   const [checkoutMessage, setCheckoutMessage] = useState("");
@@ -112,18 +105,11 @@ const ContentSectionComponent = ({
     clearCart();
   };
 
-  function checkoutFakeAPI() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const error = false;
-        if (!error) {
-          resolve(cartItems);
-        } else {
-          reject("Error: Somthing went wrong!!!");
-        }
-      }, 1500);
-    });
-  }
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const checkoutFakeAPI = async () => {
+    await delay(2000);
+    return cartItems;
+  };
 
   const onCheckout = async () => {
     try {
@@ -132,9 +118,9 @@ const ContentSectionComponent = ({
 
       setCheckoutMessage("Checkout Successful...");
       emptyCart();
-      setTimeout(() => {
-        setCheckoutMessage("");
-      }, 5000);
+      await delay(5000);
+      setCheckoutMessage("");
+      history.push("/thank-you");
     } catch (err) {
       console.log("Error: " + err);
     }
@@ -177,33 +163,13 @@ const mapStateToProps = (state) => {
     cart: state.cart,
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setActiveMenuIndex: function (index) {
-      dispatch(setActiveMenuIndex(index));
-    },
-    setActiveMenuItems: function (updatedMenuItems) {
-      dispatch(setActiveMenuItems(updatedMenuItems));
-    },
-    setQuantityByID: function (id, qty) {
-      dispatch(setQuantityByID(id, qty));
-    },
-    addToCart: function (item) {
-      dispatch(addToCart(item));
-    },
-    setCartItemQtyById: function (id, qty) {
-      dispatch(setCartItemQtyById(id, qty));
-    },
-    removeFromCart: function (id) {
-      dispatch(removeFromCart(id));
-    },
-    clearCart: function () {
-      dispatch(clearCart());
-    },
-  };
-};
 
-export const ContentSection = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ContentSectionComponent);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    { ...CartActions, ...ContentActions, setActiveMenuIndex },
+    dispatch
+  );
+
+export const ContentSection = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ContentSectionComponent)
+);

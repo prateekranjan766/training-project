@@ -3,6 +3,7 @@ import "./subHeader.styles.css";
 import React from "react";
 import restaurantImage from "./rest-img.jpeg";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { vegOnlyFilter, inputValueFilter } from "../../actions/filterActions";
 
 const SubHeaderComponent = ({ vegOnly, vegOnlyFilter, inputValueFilter }) => {
@@ -63,7 +64,7 @@ const SubHeaderComponent = ({ vegOnly, vegOnlyFilter, inputValueFilter }) => {
               <input
                 type="checkbox"
                 id="veg-only"
-                onClick={() => vegOnlyFilter(vegOnly)}
+                onClick={() => vegOnlyFilter(!vegOnly)}
               />
               &#160; Veg Only
             </div>
@@ -100,16 +101,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    vegOnlyFilter: function (vegOnly) {
-      dispatch(vegOnlyFilter(!vegOnly));
-    },
-    inputValueFilter: function (keyword) {
-      dispatch(inputValueFilter(keyword));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ vegOnlyFilter, inputValueFilter }, dispatch);
 
 export const SubHeader = connect(
   mapStateToProps,

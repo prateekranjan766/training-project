@@ -11,7 +11,7 @@ export const activeMenuItemsReducer = (state = [], action) => {
     case SET_QTY_BY_ID:
       return produce(state, (draft) => {
         const idx = draft.findIndex((item) => item.id === action.payload.id);
-        if (idx !== undefined) {
+        if (idx !== undefined && idx >= 0) {
           draft[idx].qty = action.payload.qty;
         }
       });
