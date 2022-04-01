@@ -2,7 +2,7 @@ import React from "react";
 import "./content.styles.css";
 
 export const Content = ({
-  activeMenuItems,
+  filteredItems: menuItems,
   menuName,
   onAdd,
   onMinus,
@@ -15,13 +15,11 @@ export const Content = ({
         <h1 className="content__heading--big">
           {searchKeyword ? `Search Results in ${menuName}` : menuName}
         </h1>
-        <p className="content__heading--small">
-          {activeMenuItems.length} ITEMS
-        </p>
+        <p className="content__heading--small">{menuItems.length} ITEMS</p>
       </div>
       <ul className="content__list">
-        {activeMenuItems.map((item, index) => (
-          <li key={index} className="content__list__item">
+        {menuItems.map((item) => (
+          <li key={item.id} className="content__list__item">
             <div className="content__list__item--text">
               {item.isVeg === false ? (
                 <p className="non-veg">
@@ -46,7 +44,7 @@ export const Content = ({
                 <div className="content__list__items__buttons">
                   <button
                     className="content__list__items__btn"
-                    onClick={() => onMinus(index)}
+                    onClick={() => onMinus(item.id)}
                   >
                     <i className="fa-solid fa-minus"></i>
                   </button>
@@ -55,7 +53,7 @@ export const Content = ({
                   </button>
                   <button
                     className="content__list__items__btn"
-                    onClick={() => onPlus(index)}
+                    onClick={() => onPlus(item.id)}
                   >
                     <i className="fa-solid fa-plus"></i>
                   </button>
@@ -63,7 +61,7 @@ export const Content = ({
               ) : (
                 <button
                   className="list__item__dish-btn"
-                  onClick={() => onAdd(index)}
+                  onClick={() => onAdd(item.id)}
                 >
                   ADD
                 </button>

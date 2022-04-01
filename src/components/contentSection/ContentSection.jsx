@@ -1,6 +1,6 @@
 import "./contentSection.styles.css";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Cart from "../cart";
 import Content from "../content";
 import Sidebar from "../sidebar";
@@ -31,25 +31,8 @@ const ContentSectionComponent = ({
   const { cartItems, loading: loadingCart } = cart;
   const [checkoutMessage, setCheckoutMessage] = useState("");
 
-  useEffect(() => {
-    filterItems();
-  }, [searchKeyword, isVegOnly]);
-
-  const onSidebarClick = (index) => {
-    const updatedMenuItems = getDishByMenu(menuList[index]).map((menuItem) => {
-      const result = cartItems.find((cartItem) => cartItem.id === menuItem.id);
-      if (result) menuItem.qty = result.qty;
-      return menuItem;
-    });
-
-    filterItems(updatedMenuItems);
-    setActiveMenuIndex(index);
-  };
-
-  const filterItems = (menuItems) => {
-    const currentMenuItems =
-      menuItems || getDishByMenu(menuList[activeMenuIndex]);
-    const updatedMenuItems = currentMenuItems.filter((item) => {
+  const filteredItems = useMemo(() => {
+    const items = activeMenuItems.filter((item) => {
       if (
         item.name.toLowerCase().includes(searchKeyword.trim().toLowerCase())
       ) {
@@ -60,39 +43,51 @@ const ContentSectionComponent = ({
         }
       }
     });
+    return items;
+  }, [activeMenuItems, isVegOnly, searchKeyword]);
+
+  const onSidebarClick = (index) => {
+    const updatedMenuItems = getDishByMenu(menuList[index]).map((menuItem) => {
+      const result = cartItems.find((cartItem) => cartItem.id === menuItem.id);
+      if (result) menuItem.qty = result.qty;
+      return menuItem;
+    });
 
     setActiveMenuItems(updatedMenuItems);
+    setActiveMenuIndex(index);
   };
 
-  const onAdd = (index) => {
-    const { isVeg, name, price, id } = activeMenuItems[index];
+  const onAdd = (id) => {
+    const { isVeg, name, price } = activeMenuItems.find(
+      (item) => item.id === id
+    );
 
     setQuantityByID(id, 1);
     addToCart({ id, isVeg, name, price, qty: 1 });
   };
 
-  const onPlusFromContent = (index) => {
-    const { id, qty } = activeMenuItems[index];
+  const onPlusFromContent = (id) => {
+    const { qty } = activeMenuItems.find((item) => item.id === id);
 
     setQuantityByID(id, qty + 1);
     setCartItemQtyById(id, qty + 1);
   };
 
-  const onMinusFromContent = (index) => {
-    const { id, qty } = activeMenuItems[index];
+  const onMinusFromContent = (id) => {
+    const { qty } = activeMenuItems.find((item) => item.id === id);
 
     setQuantityByID(id, qty - 1);
     qty === 1 ? removeFromCart(id) : setCartItemQtyById(id, qty - 1);
   };
 
-  const onPlusFromCart = (index) => {
-    let { id, qty } = cartItems[index];
+  const onPlusFromCart = (id) => {
+    const { qty } = cartItems.find((item) => item.id === id);
     setQuantityByID(id, qty + 1);
     setCartItemQtyById(id, qty + 1);
   };
 
-  const onMinusFromCart = (index) => {
-    let { id, qty } = cartItems[index];
+  const onMinusFromCart = (id) => {
+    const { qty } = cartItems.find((item) => item.id === id);
     setQuantityByID(id, qty - 1);
     qty === 1 ? removeFromCart(id) : setCartItemQtyById(id, qty - 1);
   };
@@ -118,7 +113,7 @@ const ContentSectionComponent = ({
 
       setCheckoutMessage("Checkout Successful...");
       emptyCart();
-      await delay(5000);
+      await delay(2000);
       setCheckoutMessage("");
       history.push("/thank-you");
     } catch (err) {
@@ -134,7 +129,7 @@ const ContentSectionComponent = ({
         onClick={onSidebarClick}
       />
       <Content
-        activeMenuItems={activeMenuItems}
+        filteredItems={filteredItems}
         menuName={menuList[activeMenuIndex]}
         onAdd={onAdd}
         onMinus={onMinusFromContent}
