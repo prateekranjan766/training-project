@@ -38,8 +38,8 @@ export const Cart = ({
             <p className="cart__heading--small"></p>
           </div>
           <ul className="cart__list">
-            {cartItems.map((item, index) => (
-              <li key={index} className="cart__list__items">
+            {cartItems.map((item) => (
+              <li key={item.id} className="cart__list__items">
                 {item.isVeg === false ? (
                   <p className="non-veg">
                     <i className="fa-solid fa-square-caret-up"></i>
@@ -53,7 +53,7 @@ export const Cart = ({
                 <div className="cart__list__items__buttons">
                   <button
                     className="cart__list__items__btn"
-                    onClick={() => onMinus(index)}
+                    onClick={() => onMinus(item.id)}
                   >
                     <i className="fa-solid fa-minus"></i>
                   </button>
@@ -62,7 +62,7 @@ export const Cart = ({
                   </button>
                   <button
                     className="cart__list__items__btn"
-                    onClick={() => onPlus(index)}
+                    onClick={() => onPlus(item.id)}
                   >
                     <i className="fa-solid fa-plus"></i>
                   </button>

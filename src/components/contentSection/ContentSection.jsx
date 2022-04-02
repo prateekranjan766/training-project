@@ -5,7 +5,7 @@ import React from "react";
 import Sidebar from "../sidebar";
 import menuList from "../../models/menuModel";
 import { getDishByMenu } from "../../models/dishModel";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 
 export const ContentSection = ({
   activeMenuIndex,
@@ -13,74 +13,71 @@ export const ContentSection = ({
   searchKeyword,
   setActiveMenuIndex,
 }) => {
-  const [activeMenuItems, setActiveMenuItems] = useState([]);
+  const [activeMenuItems, setActiveMenuItems] = useState(
+    getDishByMenu(menuList[activeMenuIndex])
+  );
   const [cartItems, setCartItems] = useState([]);
   const [checkoutMessage, setCheckoutMessage] = useState("");
   const [cartEmptyMessage, setCartEmptyMessage] = useState("");
 
-  useEffect(() => {
-    onSidebarClick(activeMenuIndex);
-  }, [isVegOnly, searchKeyword, cartItems]);
+  const filteredItems = useMemo(() => {
+    const items = activeMenuItems.filter((item) => {
+      if (
+        item.name.toLowerCase().includes(searchKeyword.trim().toLowerCase())
+      ) {
+        if (isVegOnly && item.isVeg !== false) {
+          return item;
+        } else if (!isVegOnly) {
+          return item;
+        }
+      }
+    });
+    return items;
+  }, [activeMenuItems, isVegOnly, searchKeyword]);
 
   const onSidebarClick = (index) => {
-    let updatedMenuItems = getDishByMenu(menuList[index]);
-    if (searchKeyword !== "") {
-      updatedMenuItems = updatedMenuItems.filter((item) =>
-        item.name.toLowerCase().includes(searchKeyword.trim().toLowerCase())
-      );
-    }
-    updatedMenuItems = updatedMenuItems.map((menuItem) => {
-      menuItem.qty = 0;
-      cartItems.forEach((cartItem) => {
-        if (cartItem.id === menuItem.id) {
-          menuItem.qty = cartItem.qty;
-          return;
-        }
-      });
+    const updatedMenuItems = getDishByMenu(menuList[index]).map((menuItem) => {
+      const result = cartItems.find((cartItem) => cartItem.id === menuItem.id);
+      if (result) menuItem.qty = result.qty;
       return menuItem;
     });
 
-    if (isVegOnly) {
-      updatedMenuItems = updatedMenuItems.filter(
-        (item) => item.isVeg !== false
-      );
-    }
-
-    setActiveMenuIndex(index);
     setActiveMenuItems(updatedMenuItems);
+    setActiveMenuIndex(index);
   };
 
-  const onAdd = (index) => {
-    const { isVeg, name, price, id } = activeMenuItems[index];
-    let updatedMenuItems = activeMenuItems;
+  const onAdd = (id) => {
+    const item = activeMenuItems.find((item) => item.id === id);
+
+    const updatedMenuItems = [...activeMenuItems];
+    const index = updatedMenuItems.findIndex((element) => element.id === id);
     updatedMenuItems[index].qty = 1;
 
+    const { isVeg, name, price } = item;
     setActiveMenuItems(updatedMenuItems);
     setCartItems([...cartItems, { isVeg, name, price, qty: 1, id }]);
   };
 
-  const onPlusFromContent = (index) => {
-    let updatedMenuItems = [...activeMenuItems];
+  const onPlusFromContent = (id) => {
+    const updatedMenuItems = [...activeMenuItems];
+    const index = updatedMenuItems.findIndex((element) => element.id === id);
     updatedMenuItems[index].qty++;
 
-    let updatedCartItems = [...cartItems];
-    const idx = updatedCartItems.findIndex(
-      (item) => item.name === updatedMenuItems[index].name
-    );
+    const updatedCartItems = [...cartItems];
+    const idx = updatedCartItems.findIndex((element) => element.id === id);
     updatedCartItems[idx].qty++;
 
     setCartItems(updatedCartItems);
     setActiveMenuItems(updatedMenuItems);
   };
 
-  const onMinusFromContent = (index) => {
-    let updatedMenuItems = [...activeMenuItems];
+  const onMinusFromContent = (id) => {
+    const updatedMenuItems = [...activeMenuItems];
+    const index = updatedMenuItems.findIndex((element) => element.id === id);
     updatedMenuItems[index].qty--;
 
     let updatedCartItems = [...cartItems];
-    const idx = updatedCartItems.findIndex(
-      (item) => item.name === updatedMenuItems[index].name
-    );
+    const idx = updatedCartItems.findIndex((element) => element.id === id);
     updatedCartItems[idx].qty--;
     if (updatedCartItems[idx].qty === 0) {
       updatedCartItems = updatedCartItems.filter((item, i) => i !== idx);
@@ -90,31 +87,28 @@ export const ContentSection = ({
     setActiveMenuItems(updatedMenuItems);
   };
 
-  const onPlusFromCart = (index) => {
-    let updatedCartItems = [...cartItems];
+  const onPlusFromCart = (id) => {
+    const updatedCartItems = [...cartItems];
+    const index = updatedCartItems.findIndex((element) => element.id === id);
     updatedCartItems[index].qty++;
 
     let updatedMenuItems = [...activeMenuItems];
-    const idx = updatedMenuItems.findIndex(
-      (item) => item.name === updatedCartItems[index].name
-    );
+    const idx = updatedMenuItems.findIndex((element) => element.id === id);
 
     setCartItems(updatedCartItems);
 
     if (idx === -1) return;
-
     updatedMenuItems[idx].qty++;
     setActiveMenuItems(updatedMenuItems);
   };
 
-  const onMinusFromCart = (index) => {
+  const onMinusFromCart = (id) => {
     let updatedCartItems = [...cartItems];
+    const index = updatedCartItems.findIndex((element) => element.id === id);
     updatedCartItems[index].qty--;
 
     let updatedMenuItems = [...activeMenuItems];
-    const idx = updatedMenuItems.findIndex(
-      (item) => item.name === updatedCartItems[index].name
-    );
+    const idx = updatedMenuItems.findIndex((element) => element.id === id);
 
     if (updatedCartItems[index].qty === 0) {
       updatedCartItems = updatedCartItems.filter((item, i) => i !== index);
@@ -123,7 +117,6 @@ export const ContentSection = ({
     setCartItems(updatedCartItems);
 
     if (idx === -1) return;
-
     updatedMenuItems[idx].qty--;
     setActiveMenuItems(updatedMenuItems);
   };
@@ -166,7 +159,7 @@ export const ContentSection = ({
       />
 
       <Content
-        activeMenuItems={activeMenuItems}
+        activeMenuItems={filteredItems}
         menuName={menuList[activeMenuIndex]}
         onAdd={onAdd}
         onMinus={onMinusFromContent}
