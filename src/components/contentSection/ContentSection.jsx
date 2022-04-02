@@ -12,6 +12,7 @@ import { withRouter } from "react-router-dom";
 import { setActiveMenuIndex } from "../../actions/filterActions";
 import * as ContentActions from "../../actions/contentActions";
 import * as CartActions from "../../actions/cartActions";
+import * as ContentSelectors from "../../selectors/contentSectionSelectors";
 
 const ContentSectionComponent = ({
   activeMenuIndex,
@@ -151,11 +152,11 @@ const ContentSectionComponent = ({
 
 const mapStateToProps = (state) => {
   return {
-    activeMenuIndex: state.activeMenuIndex,
-    searchKeyword: state.inputValue,
-    isVegOnly: state.vegOnly,
-    activeMenuItems: state.activeMenuItems,
-    cart: state.cart,
+    activeMenuIndex: ContentSelectors.activeMenuIndex(state),
+    searchKeyword: ContentSelectors.searchKeyword(state),
+    isVegOnly: ContentSelectors.isVegOnly(state),
+    activeMenuItems: ContentSelectors.activeMenuItems(state),
+    cart: ContentSelectors.cart(state),
   };
 };
 

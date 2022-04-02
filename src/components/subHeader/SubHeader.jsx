@@ -5,6 +5,7 @@ import restaurantImage from "./rest-img.jpeg";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { vegOnlyFilter, inputValueFilter } from "../../actions/filterActions";
+import * as SubHeaderSelectors from "../../selectors/subHeaderSelectors";
 
 const SubHeaderComponent = ({ vegOnly, vegOnlyFilter, inputValueFilter }) => {
   return (
@@ -97,7 +98,7 @@ const SubHeaderComponent = ({ vegOnly, vegOnlyFilter, inputValueFilter }) => {
 
 const mapStateToProps = (state) => {
   return {
-    vegOnly: state.vegOnly,
+    vegOnly: SubHeaderSelectors.vegOnly(state),
   };
 };
 
