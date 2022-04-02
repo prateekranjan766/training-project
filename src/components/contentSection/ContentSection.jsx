@@ -94,10 +94,7 @@ const ContentSectionComponent = ({
   };
 
   const emptyCart = () => {
-    for (let i = 0; i < cartItems.length; i++) {
-      const { id } = cartItems[i];
-      setQuantityByID(id, 0);
-    }
+    cartItems.forEach((item) => setQuantityByID(item.id, 0));
     clearCart();
   };
 
