@@ -1,0 +1,6 @@
+.breadCrumb {
+  padding: 1rem 15%;
+  color: var(--grey-primary);
+  background-color: var(--white-secondary);
+  z-index: -1;
+}

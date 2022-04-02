@@ -16,3 +16,4 @@ export const premiumKadhaiChickenPulaoThali =
 export const punjabiChickencurry = "./images/dishes/punjabi-chicken-curry.jpeg";
 export const raita = "./images/dishes/raita.jpeg";
 export const vegPlatter = "./images/dishes/veg-platter.jpeg";
+export const cartEmpty = "./images/cart-empty.png";

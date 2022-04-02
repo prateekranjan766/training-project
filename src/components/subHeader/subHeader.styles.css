@@ -1,0 +1,139 @@
+.restaurant__section {
+  background-color: var(--black-secondary);
+  display: flex;
+  color: var(--white-primary);
+  padding: 4rem 15%;
+  position: sticky;
+  top: 0;
+  z-index: 11;
+}
+
+.restaurant__image {
+  width: 25rem;
+}
+
+.restaurant__info {
+  margin-right: auto;
+  padding: 0 5rem;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+  position: relative;
+}
+.restaurant__info--name {
+  font-size: 3rem;
+  padding-bottom: 1rem;
+}
+.restaurant__info--type,
+.restaurant__info--address {
+  color: var(--grey-secondary);
+  padding: 0rem 0.05rem 1rem 0;
+}
+
+.restaurants__highlights {
+  display: flex;
+  padding-top: 3rem;
+}
+.restaurants__highlights > *:not(:last-child) {
+  padding-right: 4rem;
+  border-right: 1px solid;
+}
+.restaurants__highlights > *:not(:first-child) {
+  padding-left: 4rem;
+}
+.restaurants__highlights__features {
+  text-align: center;
+}
+.restaurants__highlights__text {
+  color: var(--grey-primary);
+  font-size: 1.3rem;
+}
+
+.restaurant__offer {
+  border: 0.5px solid var(--grey-secondary);
+  font-size: 1.6rem;
+  padding: 3rem 2rem 1rem;
+  width: 25%;
+  position: relative;
+  align-self: center;
+}
+.restaurant__offer__heading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-12%, -40%);
+  font-size: 2rem;
+  background-color: var(--black-secondary);
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+.restaurant__offer__item {
+  padding-bottom: 1.5rem;
+  display: flex;
+  align-content: center;
+}
+.restaurant__offer__icon {
+  padding-right: 1rem;
+}
+
+.restaurant__info__input-fields {
+  display: flex;
+  padding-top: 1rem;
+  position: absolute;
+  width: 110%;
+  bottom: -6rem;
+}
+.restaurant__info__input-group {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
+.restaurant__info__search {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1rem 2rem;
+  padding-inline-start: 5rem;
+  border: none;
+}
+.restaurant__info__search::placeholder {
+  font-weight: bold;
+}
+.restaurant__info__search:focus {
+  outline: none;
+}
+.restaurant__info__input-icon {
+  position: absolute;
+  top: 25%;
+  left: 1.5rem;
+  font-size: 1.8rem;
+  color: var(--black-primary);
+}
+.restaurant__info__checkbox {
+  background-color: var(--white-primary);
+  color: var(--black-primary);
+  font-weight: bold;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  margin-left: 2.5rem;
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
+.restaurant__info__checkbox:hover {
+  color: var(--green-primary);
+}
+
+.restaurant__info__favourite {
+  padding: 1rem 2rem;
+  margin-left: 2.5rem;
+  background-color: var(--white-primary);
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: inherit;
+  color: var(--black-primary);
+  cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
+.restaurant__info__favourite:hover {
+  color: salmon;
+}
