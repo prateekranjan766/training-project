@@ -121,17 +121,18 @@ export const ContentSection = ({
     setActiveMenuItems(updatedMenuItems);
   };
 
-  const emptyCart = async () => {
+  const emptyCart = async (isCheckout) => {
     const updatedMenuItems = activeMenuItems.map((item) => {
       item.qty = 0;
       return item;
     });
     setCartItems([]);
     setActiveMenuItems(updatedMenuItems);
-    setCartEmptyMessage("Cart items removed successfully...");
-
-    await delay(2000);
-    setCartEmptyMessage("");
+    if (!isCheckout) {
+      setCartEmptyMessage("Cart items removed successfully...");
+      await delay(2000);
+      setCartEmptyMessage("");
+    }
   };
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -145,10 +146,10 @@ export const ContentSection = ({
       const items = await checkoutFakeAPI();
       localStorage.setItem("cart", JSON.stringify(items));
 
-      setCartItems([]);
+      emptyCart(true);
       setCheckoutMessage("Checkout Successful...");
 
-      await delay(5000);
+      await delay(2000);
       setCheckoutMessage("");
     } catch (err) {
       console.log("Error: " + err);
