@@ -244,6 +244,7 @@ main {
 .sidebar__list__item {
   padding: 0.5rem 5rem 0.5rem 0;
   cursor: pointer;
+  text-transform: capitalize;
 }
 .sidebar__list__item:hover {
   color: #ec8639;
@@ -262,6 +263,7 @@ main {
 .content__heading--big {
   font-size: 3rem;
   color: #3e4151;
+  text-transform: capitalize;
 }
 .content__heading--small {
   color: #90939b;
@@ -273,6 +275,7 @@ main {
 }
 .content__list__item {
   display: flex;
+  flex-grow: 1;
   padding: 3rem 0;
   color: #3e4151;
 }
@@ -281,9 +284,14 @@ main {
 }
 .content__list__item--text {
   font-size: 1.6rem;
+  margin-right: auto;
 }
 .non-veg {
   color: brown;
+  font-size: 2rem;
+}
+.veg {
+  color: #74b055;
   font-size: 2rem;
 }
 .list__item__dish-name {
@@ -301,7 +309,9 @@ main {
 .content__list__item__img-container {
   /* padding: 3rem 0 3rem 5rem; */
   padding-left: 2rem;
+  margin-left: auto;
   display: flex;
+  justify-content: flex-start;
   position: relative;
 }
 .list__item__dish-image {
@@ -313,13 +323,13 @@ main {
   font-family: inherit;
   font-size: 1.4rem;
   font-weight: bold;
-  padding: 1rem 3rem;
+  padding: 1rem 3.35rem;
   background-color: #fff;
   border: 1px solid #bebdbd;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  transform: translate(50%, -40%);
+  transform: translate(45%, 230%);
   color: #74b055;
   cursor: pointer;
 }
