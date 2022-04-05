@@ -1,6 +1,8 @@
 import React from "react";
+import "./content.styles.css";
+
 export const Content = ({
-  activeMenuItems,
+  filteredItems: menuItems,
   menuName,
   onAdd,
   onMinus,
@@ -13,12 +15,10 @@ export const Content = ({
         <h1 className="content__heading--big">
           {searchKeyword ? `Search Results in ${menuName}` : menuName}
         </h1>
-        <p className="content__heading--small">
-          {activeMenuItems.length} ITEMS
-        </p>
+        <p className="content__heading--small">{menuItems.length} ITEMS</p>
       </div>
       <ul className="content__list">
-        {activeMenuItems.map((item) => (
+        {menuItems.map((item) => (
           <li key={item.id} className="content__list__item">
             <div className="content__list__item--text">
               {item.isVeg === false ? (

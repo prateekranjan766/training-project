@@ -1,0 +1,3 @@
+export const SET_ACTIVE_MENU_INDEX = "SET_ACTIVE_MENU_INDEX";
+export const SET_VEG_ONLY = "SET_VEG_ONLY";
+export const SET_INPUT_VALUE = "SET_INPUT_VALUE";

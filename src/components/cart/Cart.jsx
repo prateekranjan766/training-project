@@ -1,10 +1,13 @@
 import Message from "../message";
-import React from "react";
+import React, { useContext } from "react";
 
 import cartEmpty from "./cart-empty.png";
+import Spinner from "../spinner";
+import { ThemeContext } from "../../context/themeContext";
+import "./cart.styles.css";
 
 export const Cart = ({
-  cartEmptyMessage,
+  loading,
   cartItems,
   checkoutMessage,
   onCheckout,
@@ -17,12 +20,11 @@ export const Cart = ({
     0
   );
 
+  const isLightTheme = useContext(ThemeContext);
+
   return (
     <div className="cart">
       {checkoutMessage && <Message>{checkoutMessage}</Message>}
-      {cartEmptyMessage && (
-        <Message variant="danger">{cartEmptyMessage}</Message>
-      )}
       {cartItems.length === 0 ? (
         <div className="cart__empty__container">
           <img src={cartEmpty} alt="empty cart" className="cart__img" />
@@ -84,14 +86,24 @@ export const Cart = ({
             <p className="cart__summary__price">&#x20B9; {totalCost}</p>
           </div>
 
+          {loading ? (
+            <Spinner />
+          ) : (
+            <button
+              className="cart__btn cart__btn--red"
+              onClick={() => onEmpty()}
+            >
+              Empty Cart &nbsp;
+              <i className="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          )}
+
           <button
-            className="cart__btn cart__btn--red"
-            onClick={() => onEmpty()}
-          >
-            Empty Cart &nbsp;<i className="fa fa-trash" aria-hidden="true"></i>
-          </button>
-          <button
-            className="cart__btn cart__btn__checkout"
+            className={`cart__btn cart__btn__checkout ${
+              isLightTheme
+                ? "cart__btn__checkout--light"
+                : "cart__btn__checkout--dark"
+            }`}
             onClick={() => onCheckout()}
           >
             Checkout &#8594;

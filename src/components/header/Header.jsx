@@ -3,7 +3,7 @@ import logo from "./swiggy-logo.svg";
 import "./header.styles.css";
 import React from "react";
 
-export const Header = () => {
+export const Header = ({ changeTheme }) => {
   return (
     <header className="header">
       <div className="header__logo-box">
@@ -47,6 +47,15 @@ export const Header = () => {
           <a href="#" className="header__navigation__link">
             <i className="fa-solid fa-cart-shopping"></i>
             &#160;Cart
+          </a>
+        </li>
+        <li className="header__navigation__item">
+          <a
+            className="header__navigation__link"
+            style={{ cursor: "pointer" }}
+            onClick={() => changeTheme()}
+          >
+            Change Checkout Button
           </a>
         </li>
       </ul>
