@@ -1,9 +1,9 @@
 import "./footer.styles.css";
 
-import React from "react";
 import appStoreImage from "./app-store-img.png";
 import footerLogo from "./footer-logo.png";
 import playStoreImage from "./play-store-img.png";
+import React from "react";
 
 export const Footer = () => {
   return (

@@ -1,43 +1,31 @@
-import BreadCrumb from "./components/breadCrumb";
-import ContentSection from "./components/contentSection";
-import Footer from "./components/footer";
-import Header from "./components/header";
-import SubHeader from "./components/subHeader";
 import React, { useState } from "react";
+import { ThemeContext } from "./context/themeContext";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import HomeScreen from "./components/homeScreen";
+import NotFound from "./components/notFound";
+import ThankYouScreen from "./components/thankYouScreen/ThankYouScreen";
 
 function App() {
-  const [activeMenuIndex, setActiveMenuIndex] = useState(0);
+  const [isLightTheme, setIsLightTheme] = useState(true);
 
-  const [vegOnly, setVegOnly] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-
-  const vegOnlyFilter = () => {
-    setVegOnly(!vegOnly);
-  };
-
-  const setIndex = (index) => {
-    setActiveMenuIndex(index);
-  };
-
-  const onInputChange = (e) => {
-    setInputValue(e.target.value);
+  const changeTheme = () => {
+    setIsLightTheme(!isLightTheme);
   };
 
   return (
-    <>
-      <Header />
-      <main>
-        <BreadCrumb />
-        <SubHeader onClick={vegOnlyFilter} onChange={onInputChange} />
-        <ContentSection
-          isVegOnly={vegOnly}
-          activeMenuIndex={activeMenuIndex}
-          setActiveMenuIndex={setIndex}
-          searchKeyword={inputValue}
-        />
-      </main>
-      <Footer />
-    </>
+    <Router>
+      <ThemeContext.Provider value={isLightTheme}>
+        <Switch>
+          <Route exact path="/thank-you" component={ThankYouScreen} />
+          <Route
+            exact
+            path="/"
+            render={() => <HomeScreen changeTheme={changeTheme} />}
+          />
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </ThemeContext.Provider>
+    </Router>
   );
 }
 
